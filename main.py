@@ -9,36 +9,37 @@ tasks = []
 
 # functions
 ## task manipulation functions
-def create_task(name, duration, priority=None):
+def create_task(name, duration,  priority=1, skip=False, done=False):
     global tasks
 
     task = {
         "name": name,
         "duration": int(duration),
-        "done": False,
-        "priority": priority
+        'skip': skip,
+        "done": done,
         }
     
     tasks.append(task)
 
 def display():
     time = time_start
-    for n in ['ID', 'Time', 'Name', 'Duration', 'Done']:
-        print(n, end='\t')
-    print()
-    for i in range(len(tasks)):
-        print(i, end='\t')
-        print(time, end='\t')
-        for attr in tasks[i]:
-            print(tasks[i][attr], end='\t')
-#        print(f"{i}{' '*(lengths['id'] - len(str(i)))}", end=' ')
-#        print(f"{time}{''*(lengths['time']-len(str(time)))}", end=' ')
-#        print(f"{t[i]['name']}{' '*(lengths['name'] - len(tO
 
+    def print_header(name):
+        print(f'\033[4m\033[95m{n:8}\033[0m', end=' ')
+
+    def print_attr(attr):
+        print(f"{str(attr):8}", end=' ')
+
+    for n in ['ID', 'Time', 'Name', 'Duration', 'Skip', 'Done']:
+        print_header(n)
+    print()
+
+    for i in range(len(tasks)):
+        print_attr(i)
+        print_attr(time)
+        for key in tasks[i]:
+            print_attr(tasks[i][key])
         print() ; time += tasks[i]['duration']
-#    for t in tasks:
-#        print(time, t['name'], t['duration'], t['done'])
-#        time += t['duration']
 
 ## data manipulation functions
 def purge():
@@ -59,8 +60,13 @@ def write_json():
 
 def read_json():
     global tasks
-    with open('data.json', 'r') as data:
-        tasks = json.load(data)
+    try:
+        with open('data.json', 'r') as data:
+            tasks = json.load(data)
+    except FileNotFoundError:
+        print('Data file does not exist. Creating a new one.')
+        tasks = []
+        write_json()
 
 # main
 read_json()
