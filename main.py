@@ -3,9 +3,8 @@ import json
 import sys
 
 # variables
-today_dir = ""
-time_start = 0
 tasks = []
+settings = {}
 
 # functions
 ## task manipulation functions
@@ -22,7 +21,7 @@ def create_task(name, duration,  priority=1, skip=False, done=False):
     tasks.append(task)
 
 def display():
-    time = time_start
+    time = settings['time_start']
 
     def print_header(name):
         print(f'\033[4m\033[95m{n:8}\033[0m', end=' ')
@@ -53,22 +52,43 @@ def retrieve():
     global tasks
     with opin('purged.json', 'r') as data:
         tasks = json.loads(data)
+    write_json()
 
 def write_json():
-    with open('data.json', 'w') as data:
+    with open(settings['data_path'], 'w') as data:
         json.dump(tasks, data)
 
 def read_json():
     global tasks
     try:
-        with open('data.json', 'r') as data:
+        with open(settings['data_path'], 'r') as data:
             tasks = json.load(data)
     except FileNotFoundError:
         print('Data file does not exist. Creating a new one.')
         tasks = []
         write_json()
 
+## settings functions
+def write_settings():
+    with open('settings.json', 'w') as data:
+        json.dump(settings, data) 
+
+def read_settings():
+    global settings
+    try:
+        with open('settings.json', 'r') as data:
+            settings = json.load(data)
+    except FileNotFoundError:
+        print('Settings file does not exist. Creating a new one.')
+        settings = {
+                'time_start': 0,
+                'data_path': 'data.json'
+                }
+        write_settings()
+
+
 # main
+read_settings()
 read_json()
 
 if(len(sys.argv)>1):
