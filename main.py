@@ -22,6 +22,10 @@ def create_task(name, duration,  priority=1, skip=False, done=False):
     tasks.append(task)
 
 def display(id=None):
+    if(id):
+        print(tasks[id])
+        return(True)
+
     time = settings['time_start']
 
     def print_header(name):
@@ -40,6 +44,7 @@ def display(id=None):
         for key in tasks[i]:
             print_attr(tasks[i][key])
         print() ; time += tasks[i]['duration']
+    return(True)
 
 def task_do(id):
     if(id>len(tasks)):
