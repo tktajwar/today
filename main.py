@@ -1,8 +1,9 @@
 # import
 import json
-import sys
+import argparse
 
-# variables
+# variables and parsing arguments
+parser = argparse.ArgumentParser('Process Task Arguments')
 tasks = []
 settings = {}
 
@@ -20,7 +21,7 @@ def create_task(name, duration,  priority=1, skip=False, done=False):
     
     tasks.append(task)
 
-def display():
+def display(id=None):
     time = settings['time_start']
 
     def print_header(name):
@@ -39,6 +40,17 @@ def display():
         for key in tasks[i]:
             print_attr(tasks[i][key])
         print() ; time += tasks[i]['duration']
+
+def task_do(id):
+    if(id>len(tasks)):
+        print('Task ID out of range')
+        return(0)
+    if(tasks[id]['done']):
+        print(f"Task {id}: {tasks[id]['name']} was already done.")
+    else:
+        tasks[id]['done'] = True
+        write_json()
+        print(f"Task {id}: {tasks[id]['name']} done.")
 
 ## data manipulation functions
 def purge():
@@ -88,18 +100,12 @@ def read_settings():
 
 
 # main
+## read files
 read_settings()
 read_json()
 
-if(len(sys.argv)>1):
-    if(sys.argv[1]=='add'):
-            if(sys.argv[2] and sys.argv[3]):
-                create_task(sys.argv[2], sys.argv[3])
-                write_json()
-    elif(sys.argv[1]=='purge'):
-        purge()
-    else:
-        print(f'Unknown Command: {sys.argv[1]}')
-else:
-    display()
-
+## handle arguments
+parser.add_argument('integers', metavar='ID', type=int, nargs='?', help='Task ID number')
+parser.add_argument('--done', dest='accumulate', action='store_const', const=task_do, default=display, help='Mark a task as done')
+args = parser.parse_args()
+print(args.accumulate(args.integers))
