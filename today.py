@@ -28,22 +28,45 @@ def display(id=None):
 
     time = settings['time_start']
 
-    def print_header(name):
-        print(f'\033[4m\033[95m{n:8}\033[0m', end=' ')
+    def get_attr_lengths():
+        lengths = []
+        lengths.append(max(len(str(len(tasks))), 4))
+        lengths.append(max(len(str(sum(tasks[i]['duration'] for i in range(len(tasks))))), 4))
+        for attr in ['name', 'duration', 'skip', 'done']:
+            length = max(max(len(str(tasks[i][attr])) for i in range(len(tasks))), 8)
+            lengths.append(length)
+        return(lengths)
+    lengths = get_attr_lengths()
 
-    def print_attr(attr):
-        print(f"{str(attr):8}", end=' ')
+    def print_header(name, l):
+        print(f'\033[4m\033[95m{name:{l}}\033[0m', end=' ')
 
-    for n in ['ID', 'Time', 'Name', 'Duration', 'Skip', 'Done']:
-        print_header(n)
+    def print_attr(attr, l):
+        print(f"{str(attr):{l}}", end=' ')
+
+    for attr, i in zip(['ID', 'Time', 'Name', 'Duration', 'Skip', 'Done'], lengths):
+        print_header(attr, i)
     print()
 
+    next_done = False
     for i in range(len(tasks)):
-        print_attr(i)
-        print_attr(time)
-        for key in tasks[i]:
-            print_attr(tasks[i][key])
-        print() ; time += tasks[i]['duration']
+        if(tasks[i]['done']):
+            print('\033[32m', end='')
+        elif(tasks[i]['skip']):
+            print('\033[90m', end='')
+        else:
+            print('\033[93m', end='')
+            if(not(next_done)):
+                print('\33[100m', end='')
+                next_done = True
+
+        print_attr(i, lengths[0])
+        print_attr(time, lengths[1])
+        for key, j in zip(tasks[i], range(len(tasks[i]))):
+            value = tasks[i][key]
+            print_attr(value, lengths[j+2])
+        time += tasks[i]['duration']
+        print('\033[0m')
     return(True)
 
 def task_do(id):
