@@ -1,3 +1,5 @@
 # today
-A command-line planner for everything you will be doing today.
-today is a program that helps you schedule the tasks you will be doing today by adding tasks and having time reserved for them.
+
+Add Tasks, reserve time for them, Mark Tasks as Done and Be Organised!
+
+How is different from a program like [Taskwarrior](https://taskwarrior.org/)? Taskwarrior is a powerful to do list whereas **today** is a day planner/scheduler. You can use Taskwarrior to add tasks, make them recurring, add due dates; you can use today to plan what tasks you will be doing today, when you will do them and how much time you are planning on spending on them.
