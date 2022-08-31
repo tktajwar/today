@@ -52,7 +52,7 @@ def display(id=None, tasks=tasks):
 
     def get_attr_lengths():
         lengths = []
-        lengths.append(max(len(str(len(tasks))), 4))
+        lengths.append(max(len(str(len(tasks))), 2))
         lengths.append(max(len(to_time(sum(tasks[i]['duration'] for i in range(len(tasks))))), 4))
         for attr in ['name', 'duration', 'skip', 'done']:
             length = 8
