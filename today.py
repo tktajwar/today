@@ -53,7 +53,7 @@ def display(id=None, tasks=tasks):
     def get_attr_lengths():
         lengths = []
         lengths.append(max(len(str(len(tasks))), 4))
-        lengths.append(max(len(str(sum(tasks[i]['duration'] for i in range(len(tasks))))), 4))
+        lengths.append(max(len(to_time(sum(tasks[i]['duration'] for i in range(len(tasks))))), 4))
         for attr in ['name', 'duration', 'skip', 'done']:
             length = 8
             if(len(tasks)):
@@ -85,9 +85,11 @@ def display(id=None, tasks=tasks):
                 next_done = True
 
         print_attr(i, lengths[0])
-        print_attr(time, lengths[1])
+        print_attr(to_time(time), lengths[1])
         for key, j in zip(tasks[i], range(len(tasks[i]))):
             value = tasks[i][key]
+            if(key=='duration'):
+                value = to_time(value)
             print_attr(value, lengths[j+2])
         time += tasks[i]['duration']
         print('\033[0m')
@@ -198,6 +200,11 @@ def read_settings():
                 }
         write_settings()
 
+## formation functins
+def to_time(m):
+    t = str(m//60)
+    t = f"{t}:{str(m%60):2}"
+    return(t)
 
 # main
 ## read files
