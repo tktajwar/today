@@ -45,15 +45,13 @@ def display(id=None, tasks=tasks):
             return(True)
         else:
             raise ValueError(f"No Task with the ID {id} exists.")
-        
-
 
     time = settings['time_start']
 
     def get_attr_lengths():
         lengths = []
         lengths.append(max(len(str(len(tasks))), 2))
-        lengths.append(max(len(to_time(sum(tasks[i]['duration'] for i in range(len(tasks))))), 4))
+        lengths.append(max(len(to_time(sum(tasks[i]['duration'] for i in range(len(tasks)))+time)), 4))
         for attr in ['name', 'duration', 'skip', 'done']:
             length = 8
             if(len(tasks)):
@@ -191,7 +189,7 @@ def read_settings():
     except FileNotFoundError:
         print('Settings file does not exist. Creating a new one.')
         settings = {
-                'time_start': 0,
+                'time_start': 420,
                 'data_path': 'data.json',
                 'default': {
                     'name': 'Unnamed',
