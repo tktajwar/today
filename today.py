@@ -203,7 +203,7 @@ def read_settings():
 ## formation functins
 def to_time(m):
     t = str(m//60)
-    t = f"{t}:{str(m%60):2}"
+    t = f"{t}:{str(m%60):0<2}"
     return(t)
 
 # main
