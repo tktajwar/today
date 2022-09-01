@@ -98,7 +98,7 @@ def display_today(id=None):
 
 def task_do(id):
     if(not(id)): 
-        id = get_first('done', False)
+        id = get_first({'done': False, 'skip':False})
 
     if(id>len(tasks)):
         raise ValueError(f"No Task with the ID {id} exists.")
@@ -111,7 +111,7 @@ def task_do(id):
 
 def task_undo(id):
     if(not(id)): 
-        id = get_first('done', True, -1)
+        id = get_first({'done': True, 'skip':False}, -1)
 
     if(id>len(tasks)):
         raise ValueError(f"No Task with the ID {id} exists.")
@@ -139,9 +139,10 @@ def task_toggle_skip(id):
     write_json()
 
 ## Task Tool Functions
-def get_first(key, value, step=1):
+def get_first(d: dict, step=1):
     for i in range(len(tasks))[::step]:
-        if(tasks[i][key] == value):
+        matches = list(tasks[i][key]==d[key] for key in d)
+        if(all(matches)):
             return(i)
     return(False)
     
