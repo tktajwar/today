@@ -107,7 +107,7 @@ def task_do(id):
     else:
         tasks[id]['done'] = True
         write_json()
-        print(f"Task {id}: {tasks[id]['name']} done.")
+        print(f"\033[91mTask {id}\033[0m: \33[33m{tasks[id]['name']}\033[0m done.")
 
 def task_undo(id):
     if(not(id)): 
@@ -120,7 +120,7 @@ def task_undo(id):
     else:
         tasks[id]['done'] = False
         write_json()
-        print(f"Task {id}: {tasks[id]['name']} is marked undone.")
+        print(f"\033[91mTask {id}\033[0m: \33[33m{tasks[id]['name']}\033[0m is marked undone.")
 
 def task_do_all():
     for id in range(len(tasks)):
@@ -134,7 +134,7 @@ def task_undo_all():
 
 def task_toggle_skip(id):
     if(not(id)):
-        id = get_first('done', False)
+        id = get_first({'done', False})
     tasks[id]['skip'] = not tasks[id]['skip']
     write_json()
 
