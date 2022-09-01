@@ -44,7 +44,7 @@ def display(id=None, tasks=tasks):
             print(tasks[id])
             return(True)
         else:
-            raise ValueError(f"No Task with the ID {id} exists.")
+            raise ValueError(f"No Task with the \033[91mID {id}\33[0m exists.")
 
     time = settings['time_start']
 
@@ -70,7 +70,7 @@ def display(id=None, tasks=tasks):
         print_header(attr, i)
     print()
 
-    next_done = False
+    next_undone = get_first({'done':False, 'skip': False})
     for i in range(len(tasks)):
         if(tasks[i]['done']):
             print('\033[32m', end='')
@@ -78,9 +78,8 @@ def display(id=None, tasks=tasks):
             print('\033[90m', end='')
         else:
             print('\033[93m', end='')
-            if(not(next_done)):
+            if(i == next_undone):
                 print('\33[100m', end='')
-                next_done = True
 
         print_attr(i, lengths[0])
         print_attr(to_time(time), lengths[1])
@@ -97,11 +96,14 @@ def display_today(id=None):
     display(tasks=tasks, id=id)
 
 def task_do(id):
-    if(not(id)): 
+    if(type(id) != int):
         id = get_first({'done': False, 'skip':False})
+        if(type(id) != int):
+            print("All Tasks are already done")
+            return(False)
 
-    if(id>len(tasks)):
-        raise ValueError(f"No Task with the ID {id} exists.")
+    if(id>=len(tasks)):
+        raise ValueError(f"No Task with the \033[91mID {id}\33[0m exists.")
     if(tasks[id]['done']):
         print(f"Task {id}: {tasks[id]['name']} was already done.")
     else:
@@ -109,11 +111,14 @@ def task_do(id):
         write_json()
         print(f"\033[91mTask {id}\033[0m: \33[33m{tasks[id]['name']}\033[0m done.")
 
-def task_undo(id):
-    if(not(id)): 
+def task_undo(id=None):
+    if(type(id) != int):
         id = get_first({'done': True, 'skip':False}, -1)
+        if(type(id) != int):
+            print("All Tasks are already undone")
+            return(False)
 
-    if(id>len(tasks)):
+    if(id>=len(tasks)):
         raise ValueError(f"No Task with the ID {id} exists.")
     if(not(tasks[id]['done'])):
         print(f"Task {id}: {tasks[id]['name']} was not marked done.")
@@ -132,16 +137,24 @@ def task_undo_all():
         tasks[id]['done'] = False
     write_json()
 
-def task_toggle_skip(id):
-    if(not(id)):
-        id = get_first({'done', False})
+def task_toggle_skip(id=None):
+    if(type(id) != int):
+        id = get_first({'done': False})
+        if(type(id) != int):
+            print("All Tasks are already done")
+            return(False)
+
+    if(id>=len(tasks)):
+        raise ValueError(f"No Task with the \033[91mID {id}\33[0m exists.")
     tasks[id]['skip'] = not tasks[id]['skip']
     write_json()
 
 ## Task Tool Functions
 def get_first(d: dict, step=1):
+    def check(i, key):
+        return(tasks[i][key] == d[key])
     for i in range(len(tasks))[::step]:
-        matches = list(tasks[i][key]==d[key] for key in d)
+        matches = [check(i, key) for key in d]
         if(all(matches)):
             return(i)
     return(False)
