@@ -97,6 +97,9 @@ def display_today(id=None):
     display(tasks=tasks, id=id)
 
 def task_do(id):
+    if(not(id)): 
+        id = get_first('done', False)
+
     if(id>len(tasks)):
         raise ValueError(f"No Task with the ID {id} exists.")
     if(tasks[id]['done']):
@@ -107,6 +110,9 @@ def task_do(id):
         print(f"Task {id}: {tasks[id]['name']} done.")
 
 def task_undo(id):
+    if(not(id)): 
+        id = get_first('done', True, -1)
+
     if(id>len(tasks)):
         raise ValueError(f"No Task with the ID {id} exists.")
     if(not(tasks[id]['done'])):
@@ -127,8 +133,17 @@ def task_undo_all():
     write_json()
 
 def task_toggle_skip(id):
+    if(not(id)):
+        id = get_first('done', False)
     tasks[id]['skip'] = not tasks[id]['skip']
     write_json()
+
+## Task Tool Functions
+def get_first(key, value, step=1):
+    for i in range(len(tasks))[::step]:
+        if(tasks[i][key] == value):
+            return(i)
+    return(False)
     
 ## data manipulation functions
 def newday():

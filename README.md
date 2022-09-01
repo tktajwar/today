@@ -101,6 +101,8 @@ D Time  Name                                    Duration Skip     Done
 10 16:00 Play Games                              1:00     False    False
 ```
 
+If no ID is provided then **today** will mark the **next undone task** as done.
+
 # Get today
 
 The only way to get **today** right now is by Git.
