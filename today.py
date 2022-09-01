@@ -3,7 +3,7 @@ import json
 import argparse
 
 # variables and parsing arguments
-parser = argparse.ArgumentParser('Process Task Arguments')
+parser = argparse.ArgumentParser('plan and execute your day in an organised way')
 tasks = []
 settings = {}
 
@@ -209,36 +209,57 @@ def to_time(m):
 read_settings()
 read_json()
 
-## handle arguments
-### positional
-parser.add_argument('id', metavar='ID', type=int, nargs='?', help='Task ID number')
-parser.add_argument('name', metavar='Name', type=str, nargs='?', help='Task Name')
-parser.add_argument('duration', metavar='Duration', type=int, nargs='?', help='Task Duration (Minutes)')
-### positional requiring
-parser.add_argument('-a', '--add', action='store_true', help='add a new Task')
-parser.add_argument('-d', '--done', action='store_true', help='mark a task as done')
-parser.add_argument('-u', '--undo', action='store_true', help='mark a task as undone')
-parser.add_argument('-r', '--remove', action='store_true', help='remove Task')
-parser.add_argument('-t', '--toggle', action='store_true', help='toggle Skip of Task')
-### non positional requiring
+## parse user arguments
+### positional arguments
+parser.add_argument('arguments', metavar='Arguments', nargs='*', help='Task ID [int], Name [str], Duration (minutes) [int]')
+### positional requiring options
+parser.add_argument('-a', '--add', action='store_true', help='add/append a new Task [?ID][Name][Duration]')
+parser.add_argument('-d', '--done', action='store_true', help='mark a task as done [ID]')
+parser.add_argument('-u', '--undo', action='store_true', help='mark a task as undone [ID]')
+parser.add_argument('-r', '--remove', action='store_true', help='remove Task [ID]')
+parser.add_argument('-t', '--toggle', action='store_true', help='toggle Skip of Task [ID]')
+### non positional requiring options
 parser.add_argument('-da', '--done-all', action='store_true', help='mark all tasks as done')
 parser.add_argument('-ua', '--undo-all', action='store_true', help='mark all tasks as undone')
 parser.add_argument('-p', '--purge', action='store_true', help='purge Task Data')
 parser.add_argument('-v', '--retrieve', action='store_true', help='retrieve from Purged Task Data')
-parser.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a New Day')
+parser.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a new Day')
 parser.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterday\'s Data')
 ###
 args = parser.parse_args()
+
+a_id, a_name, a_duration = None, None, None
+if(args.arguments):
+    if(len(args.arguments) == 1): # if only one argument is passed then it's either ID or Name
+        if(args.arguments[0].isnumeric()):
+            a_id = int(args.arguments[0])
+        else:
+            a_name = args.arguments[0]
+    elif(args.arguments[0].isnumeric()): # ID + Name and/or Duration
+        a_id = int(args.arguments[0])
+        if(args.arguments[-1].isnumeric()):
+            a_duration = int(args.arguments[-1])
+            if(len(args.arguments)>2): # everything in the middle is Name
+                a_name = " ".join(args.arguments[1:-1])
+        else: # everything to the end is Name
+            a_name = " ".join(args.arguments[1:])
+    else: # Name + Duration(*)
+        if(args.arguments[-1].isnumeric()): # Name + Duration
+            a_duration = int(args.arguments[-1])
+            a_name = " ".join(args.arguments[:-1])
+        else: # Name only
+            a_name = " ".join(args.arguments)
+
 if(args.add):
-    create_task(args.id, args.name, args.duration)
+    create_task(a_id, a_name, a_duration)
 elif(args.done):
-    task_do(args.id)
+    task_do(a_id)
 elif(args.undo):
-    task_undo(args.id)
+    task_undo(a_id)
 elif(args.remove):
-    task_remove(args.id)
+    task_remove(a_id)
 elif(args.toggle):
-    task_toggle_skip(args.id)
+    task_toggle_skip(a_id)
 elif(args.done_all):
     task_do_all()
 elif(args.undo_all):
@@ -250,6 +271,6 @@ elif(args.retrieve):
 elif(args.new_day):
     newday()
 elif(args.yesterday):
-    display_yesterday()
+    display_yesterday(a_id)
 else:
-    display_today()
+    display_today(a_id)
