@@ -2,11 +2,21 @@
 # import
 import json
 import argparse
+import os
 
 # variables and parsing arguments
+## parser
 parser = argparse.ArgumentParser('plan and execute your day in an organised way')
+##
 tasks = []
 settings = {}
+## paths
+path = os.path.expanduser('~')
+path = os.path.join(path, '.today')
+data_path = os.path.join(path, "data.json")
+settings_path = os.path.join(path, "settings.json")
+purged_path = os.path.join(path, "purged.json")
+yesterday_path = os.path.join(path, "yesterday.json")
 
 # functions
 ## task manipulation functions
@@ -163,14 +173,14 @@ def get_first(d: dict, step=1):
 ## data manipulation functions
 def newday():
     global tasks
-    with open('yesterday.json', 'w') as data:
+    with open(yesterday_path, 'w') as data:
         json.dump(tasks, data)
     tasks = []
     write_json()
 
 def display_yesterday(id=None):
     try:
-        with open('yesterday.json', 'r') as data:
+        with open(yesterday_path, 'r') as data:
             yesterday = json.load(data)
             display(tasks=yesterday, id=id)
     except FileNotFoundError:
@@ -178,7 +188,7 @@ def display_yesterday(id=None):
 
 def purge():
     global tasks
-    with open('purged.json', 'w') as data:
+    with open(purged_path, 'w') as data:
         json.dump(tasks, data)
     tasks = []
     write_json()
@@ -186,20 +196,20 @@ def purge():
 def retrieve():
     global tasks
     try:
-        with open('purged.json', 'r') as data:
+        with open(purged_path, 'r') as data:
             tasks = json.load(data)
             write_json()
     except FileNotFoundError:
         print("Therer is no Purged Data file. Purged Data file is only generated when purge function is called.")
 
 def write_json():
-    with open(settings['data_path'], 'w') as data:
+    with open(data_path, 'w') as data:
         json.dump(tasks, data)
 
 def read_json():
     global tasks
     try:
-        with open(settings['data_path'], 'r') as data:
+        with open(data_path, 'r') as data:
             tasks = json.load(data)
     except FileNotFoundError:
         print('Data file does not exist. Creating a new one.')
@@ -208,19 +218,18 @@ def read_json():
 
 ## settings functions
 def write_settings():
-    with open('settings.json', 'w') as data:
+    with open(settings_path, 'w') as data:
         json.dump(settings, data) 
 
 def read_settings():
     global settings
     try:
-        with open('settings.json', 'r') as data:
+        with open(settings_path, 'r') as data:
             settings = json.load(data)
     except FileNotFoundError:
         print('Settings file does not exist. Creating a new one.')
         settings = {
                 'time_start': 420,
-                'data_path': 'data.json',
                 'default': {
                     'name': 'Unnamed',
                     'duration': 30
@@ -235,7 +244,12 @@ def to_time(m):
     return(t)
 
 # main
-## read files
+###create root directory if it does not exist
+if (not(os.path.exists(path))):
+    print(f"creating directory: {path}")
+    os.makedirs(path)
+
+# read files
 read_settings()
 read_json()
 
