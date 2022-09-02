@@ -24,7 +24,7 @@ def create_task(id=None, name=None, duration=None, skip=False, done=False):
         'skip': skip,
         "done": done,
         }
-    if(id):
+    if(type(id)==int):
         tasks.insert(id, task)
     else:
         tasks.append(task)
@@ -32,15 +32,15 @@ def create_task(id=None, name=None, duration=None, skip=False, done=False):
 
 def task_remove(id=None):
     global tasks
-    if(id or id==0):
+    if(type(id)==int):
         tasks.pop(id)
     else:
         tasks.pop()
     write_json()
 
 
-def display(id=None, tasks=tasks):
-    if(id):
+def display(tasks, id=None):
+    if(int(id)==int):
         if(id<len(tasks)):
             print(tasks[id])
             return(True)
@@ -172,7 +172,7 @@ def display_yesterday(id=None):
     try:
         with open('yesterday.json', 'r') as data:
             yesterday = json.load(data)
-            display(id=id, tasks=yesterday)
+            display(tasks=yesterday, id=id)
     except FileNotFoundError:
         print("There is no Data file for Yesterday's tasks. Yesterday's data file is only generated when newday function is called.")
 
