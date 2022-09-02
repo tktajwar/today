@@ -40,7 +40,7 @@ def task_remove(id=None):
 
 
 def display(tasks, id=None):
-    if(int(id)==int):
+    if(type(id)==int):
         if(id<len(tasks)):
             print(tasks[id])
             return(True)
