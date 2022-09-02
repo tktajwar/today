@@ -2,7 +2,7 @@
 
 **Add Tasks, reserve time for them, Mark Task Done and Be Organised!**
 
-How is it different from a program such as [Taskwarrior](https://taskwarrior.org/)? **Taskwarrior** is a powerful to do list manager, whereas **today** is a day planner. You can use Taskwarrior to add tasks, make them recurring and add due dates; you can use today to plan what tasks you will be doing today, when you will do them and how much time you are planning to spend on them.
+How is it different from a program such as [Taskwarrior](https://taskwarrior.org/)? **Taskwarrior** is a powerful to do list manager, whereas **today** is a day planner. You can use Taskwarrior to add tasks, make them recurring and add due dates; you can use today to plan what tasks you will be doing today, when you will do them and how much time you are planning on spending on each task.
 
 ![screenshot](screenshot.png)
 
@@ -105,7 +105,7 @@ If no ID is provided then **today** will mark the **next undone task** as done.
 
 # Get today
 
-The only way to get **today** right now is by Git.
+The only way to get **today** right now is using Git.
 
 ## CLI
 
@@ -113,7 +113,7 @@ Copy the link to this page and open terminal
 
 `git clone link`
 
-replace the *link* with the link you copied.
+replace the *link* with the link you copied and press enter.
 
 ## GUI
 
