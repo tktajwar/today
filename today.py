@@ -10,6 +10,14 @@ parser = argparse.ArgumentParser('plan and execute your day in an organised way'
 ##
 tasks = []
 settings = {}
+default_settings = {
+        'time_start': 420,
+        'theme': None,
+        'default': {
+            'name': 'Unnamed',
+            'duration': 30
+            }
+        }
 ## paths
 path = os.path.expanduser('~')
 path = os.path.join(path, '.today')
@@ -226,16 +234,22 @@ def read_settings():
     try:
         with open(settings_path, 'r') as data:
             settings = json.load(data)
+            update_settings()
     except FileNotFoundError:
         print('Settings file does not exist. Creating a new one.')
-        settings = {
-                'time_start': 420,
-                'default': {
-                    'name': 'Unnamed',
-                    'duration': 30
-                    }
-                }
+        settings = default_settings
         write_settings()
+
+def update_settings():
+    for key, value in default_settings.items():
+        global settings
+        updated = []
+        if(not(key in settings)):
+            settings[key] = value
+            updated.append(key)
+        if(updated):
+            write_settings()
+            print(f"Settings was updated, new keys added: {updated}")
 
 ## formation functins
 def to_time(m):
