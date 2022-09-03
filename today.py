@@ -3,6 +3,7 @@
 import json
 import argparse
 import os
+import re
 
 # variables and parsing arguments
 ## parser
@@ -249,13 +250,32 @@ def update_settings():
             updated.append(key)
         if(updated):
             write_settings()
-            print(f"Settings was updated, new keys added: {updated}")
+            print(f"Settings was updated, new key(s) added: {updated}")
 
 ## formation functins
 def to_time(m):
     t = str(m//60)
     t = f"{t}:{str(m%60):0<2}"
     return(t)
+
+def to_min(duration):
+    m = re.match("^(\d+)(\w)$", duration)
+    if(not(m)):
+        return(None)
+    if(m.group(2)=='h'):
+        return(int(m.group(1))*60)
+    elif(m.group(2)=='d'):
+        return(int(m.group(1))*60*24)
+    elif(m.group(2)=='s'):
+        return(int(m.group(1))/60)
+    else:
+        return(int(m.group(1)))
+
+def is_duration(s):
+    m = re.match("^(\d+)(\w)$", s)
+    if(m):
+        return(True)
+    return(False)
 
 # main
 ###create root directory if it does not exist
@@ -291,22 +311,31 @@ if(args.arguments):
     if(len(args.arguments) == 1): # if only one argument is passed then it's either ID or Name
         if(args.arguments[0].isnumeric()):
             a_id = int(args.arguments[0])
+        elif(is_duration(args.arguments[0])):
+            a_duration = args.arguments[0]
         else:
             a_name = args.arguments[0]
     elif(args.arguments[0].isnumeric()): # ID + Name and/or Duration
         a_id = int(args.arguments[0])
-        if(args.arguments[-1].isnumeric()):
-            a_duration = int(args.arguments[-1])
+        if(args.arguments[-1].isnumeric() or is_duration(args.arguments[-1])):
+            a_duration = args.arguments[-1]
             if(len(args.arguments)>2): # everything in the middle is Name
                 a_name = " ".join(args.arguments[1:-1])
         else: # everything to the end is Name
             a_name = " ".join(args.arguments[1:])
     else: # Name + Duration(*)
-        if(args.arguments[-1].isnumeric()): # Name + Duration
-            a_duration = int(args.arguments[-1])
+        if(args.arguments[-1].isnumeric() or is_duration(args.arguments[-1])): # Name + Duration
+            a_duration = args.arguments[-1]
             a_name = " ".join(args.arguments[:-1])
         else: # Name only
             a_name = " ".join(args.arguments)
+if(a_duration):
+    if(is_duration(a_duration)):
+        a_duration = to_min(a_duration)
+    else:
+        a_duration = int(a_duration)
+
+print(a_id, a_name, a_duration)
 
 if(args.add):
     create_task(a_id, a_name, a_duration)
