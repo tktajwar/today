@@ -289,7 +289,7 @@ read_json()
 
 ## parse user arguments
 ### positional arguments
-parser.add_argument('arguments', metavar='Arguments', nargs='*', help='Task ID [int], Name [str], Duration (minutes) [int]')
+parser.add_argument('arguments', metavar='Arguments', nargs='*', help='Task ID [int], Name [str], Duration [int]')
 ### positional requiring options
 parser.add_argument('-a', '--add', action='store_true', help='add/append a new Task [?ID][Name][Duration]')
 parser.add_argument('-d', '--done', action='store_true', help='mark a task as done [ID]')
