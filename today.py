@@ -274,8 +274,9 @@ def get_themes():
 
 ## formation functins
 def to_time(m):
-    t = str(m//60)
-    t = f"{t}:{str(m%60):0<2}"
+    hour = (m//60)%24
+    minute = m%60
+    t = f"{hour}:{str(minute):0<2}"
     return(t)
 
 def to_min(duration):
