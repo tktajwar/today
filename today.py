@@ -29,6 +29,9 @@ purged_path = os.path.join(path, "purged.json")
 yesterday_path = os.path.join(path, "yesterday.json")
 themes_path = os.path.join(path, 'themes')
 
+dir_path = os.path.dirname(__file__)
+themes_source = os.path.join(dir_path, 'themes')
+
 # functions
 ## task manipulation functions
 def create_task(id=None, name=None, duration=None, skip=False, done=False):
@@ -271,9 +274,9 @@ def load_theme():
 
 def get_themes():
     theme_dir = os.listdir(themes_path)
-    for theme in os.listdir('themes'):
+    for theme in os.listdir(themes_source):
         if(theme not in theme_dir):
-            copyfile(os.path.join('themes', theme), os.path.join(themes_path, theme))
+            copyfile(os.path.join(themes_source, theme), os.path.join(themes_path, theme))
 
 ## formation functins
 def to_time(m):
