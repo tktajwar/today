@@ -1,19 +1,19 @@
 import json
 
-name = 'sunrise'
+name = 'matrix'
 theme = {
         'highlight': {
-            'id': '\33[91m',
-            'header': '\33[4m\33[95m',
+            'id': '\33[92',
+            'header': '\33[92m',
             'done': '\33[32m',
-            'skip': '\33[90m',
+            'skip': '\33[30m',
             'undone': {
-                'even': '\33[93m',
-                'odd': '\33[33m'
+                'even': '\33[40m\33[92m',
+                'odd': '\33[40m\33[92m'
                 },
             'next': {
-                'col': '\33[30m\33[103m',
-                'pointer': '*',
+                'col': '\33[30m\33[102m',
+                'pointer': '\33[5m<---',
             },
         },
         'escape': '\33[0m',
