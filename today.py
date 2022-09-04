@@ -105,7 +105,10 @@ def display(tasks, id=None):
             if(i == next_undone):
                 print(theme['highlight']['next']['col'], end='')
             else:
-                print(theme['highlight']['undone'], end='')
+                if(i%2==0):
+                    print(theme['highlight']['undone']['even'], end='')
+                else:
+                    print(theme['highlight']['undone']['odd'], end='')
 
         print_attr(i, lengths[0])
         print_attr(to_time(time), lengths[1])

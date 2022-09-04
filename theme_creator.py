@@ -7,10 +7,13 @@ theme = {
             'header': '\33[4m\33[95m',
             'done': '\33[32m',
             'skip': '\33[90m',
-            'undone': '\33[93m',
+            'undone': {
+                'even': '\33[93m',
+                'odd': '\33[33m'
+                },
             'next': {
-                'col': '\33[100m',
-                'pointer': None,
+                'col': '\33[30m\33[103m',
+                'pointer': '*',
             },
         },
         'escape': '\33[0m',
