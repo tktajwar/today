@@ -4,6 +4,7 @@ import json
 import argparse
 import os
 import re
+from shutil import copyfile
 
 # variables and parsing arguments
 ## parser
@@ -13,7 +14,7 @@ tasks = []
 settings = {}
 default_settings = {
         'time_start': 420,
-        'theme': None,
+        'theme': 'sunrise',
         'default': {
             'name': 'Unnamed',
             'duration': 30
@@ -26,6 +27,7 @@ data_path = os.path.join(path, "data.json")
 settings_path = os.path.join(path, "settings.json")
 purged_path = os.path.join(path, "purged.json")
 yesterday_path = os.path.join(path, "yesterday.json")
+themes_path = os.path.join(path, 'themes')
 
 # functions
 ## task manipulation functions
@@ -59,12 +61,13 @@ def task_remove(id=None):
 
 
 def display(tasks, id=None):
+    theme = load_theme()
     if(type(id)==int):
         if(id<len(tasks)):
             print(tasks[id])
             return(True)
         else:
-            raise ValueError(f"No Task with the \033[91mID {id}\33[0m exists.")
+            raise ValueError(f"No Task with the {theme['highlight']['id']}ID {id}{theme['escape']} exists.")
 
     time = settings['time_start']
 
@@ -81,7 +84,9 @@ def display(tasks, id=None):
     lengths = get_attr_lengths()
 
     def print_header(name, l):
-        print(f'\033[4m\033[95m{name:{l}}\033[0m', end=' ')
+        print(theme['highlight']['header'], end='')
+        print(f"{name:{l}}", end='')
+        print(theme['escape'], end=' ')
 
     def print_attr(attr, l):
         print(f"{str(attr):{l}}", end=' ')
@@ -93,13 +98,14 @@ def display(tasks, id=None):
     next_undone = get_first({'done':False, 'skip': False})
     for i in range(len(tasks)):
         if(tasks[i]['done']):
-            print('\033[32m', end='')
+            print(theme['highlight']['done'], end='')
         elif(tasks[i]['skip']):
-            print('\033[90m', end='')
+            print(theme['highlight']['skip'], end='')
         else:
-            print('\033[93m', end='')
             if(i == next_undone):
-                print('\33[100m', end='')
+                print(theme['highlight']['next']['col'], end='')
+            else:
+                print(theme['highlight']['undone'], end='')
 
         print_attr(i, lengths[0])
         print_attr(to_time(time), lengths[1])
@@ -109,7 +115,9 @@ def display(tasks, id=None):
                 value = to_time(value)
             print_attr(value, lengths[j+2])
         time += tasks[i]['duration']
-        print('\033[0m')
+        if(i == next_undone and theme['highlight']['next']['pointer']):
+            print(theme['highlight']['next']['pointer'], end='')
+        print(theme['escape'])
     return(True)
 
 def display_today(id=None):
@@ -252,6 +260,18 @@ def update_settings():
             write_settings()
             print(f"Settings was updated, new key(s) added: {updated}")
 
+def load_theme():
+    get_themes()
+    with open(os.path.join(themes_path, settings['theme'] + '.json'), 'r') as data:
+            theme = json.load(data)
+    return(theme)
+
+def get_themes():
+    theme_dir = os.listdir(themes_path)
+    for theme in os.listdir('themes'):
+        if(theme not in theme_dir):
+            copyfile(os.path.join('themes', theme), os.path.join(themes_path, theme))
+
 ## formation functins
 def to_time(m):
     t = str(m//60)
@@ -282,6 +302,9 @@ def is_duration(s):
 if (not(os.path.exists(path))):
     print(f"creating directory: {path}")
     os.makedirs(path)
+if (not(os.path.exists(themes_path))):
+    os.makedirs(themes_path)
+    get_themes()
 
 # read files
 read_settings()
@@ -334,8 +357,6 @@ if(a_duration):
         a_duration = to_min(a_duration)
     else:
         a_duration = int(a_duration)
-
-print(a_id, a_name, a_duration)
 
 if(args.add):
     create_task(a_id, a_name, a_duration)
