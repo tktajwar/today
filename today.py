@@ -412,7 +412,7 @@ elif(args.new_day):
     newday()
 elif(args.yesterday):
     display_yesterday(a_id)
-elif(args.change_settings):
+elif(args.settings):
     change_settings()
 else:
     display_today(a_id)
