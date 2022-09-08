@@ -3,7 +3,7 @@ import json
 name = 'matrix'
 theme = {
         'highlight': {
-            'id': '\33[92',
+            'id': '\33[92m',
             'header': '\33[92m',
             'done': '\33[32m',
             'skip': '\33[30m',
