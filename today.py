@@ -28,6 +28,7 @@ settings_path = os.path.join(path, "settings.json")
 purged_path = os.path.join(path, "purged.json")
 yesterday_path = os.path.join(path, "yesterday.json")
 themes_path = os.path.join(path, 'themes')
+notes_path = os.path.join(path, 'notes.json')
 
 dir_path = os.path.dirname(__file__)
 themes_source = os.path.join(dir_path, 'themes')
@@ -239,6 +240,47 @@ def read_json():
         tasks = []
         write_json()
 
+## notes functions
+def show_notes(id=None):
+    notes = read_notes()
+    theme = load_theme()
+    if(id):
+        print(notes[id])
+        return(True)
+    for i in range(len(notes)):
+        print(f"{theme['highlight']['id']}{i}{theme['escape']}: {notes[i]}")
+
+def write_notes(notes):
+    with open(notes_path, 'w') as data:
+        json.dump(notes, data)
+
+def read_notes():
+    notes=[]
+    try:
+        with open(notes_path, 'r') as data:
+            notes = json.load(data)
+    except FileNotFoundError:
+        print('Notes file does not exist. Creating a new one.')
+        write_notes(notes)
+        return(False)
+    return(notes)
+
+def add_notes(note, id=None):
+    notes = read_notes()
+    if(type(id)==int):
+        notes.insert(note, id)
+    else:
+        notes.append(note)
+    write_notes(notes)
+
+def remove_notes(id=None):
+    notes = read_notes()
+    if(type(id)==int):
+        notes.pop(note, id)
+    else:
+        notes.pop(note)
+    write_notes(notes)
+
 ## settings functions
 def write_settings():
     with open(settings_path, 'w') as data:
@@ -357,6 +399,9 @@ parser.add_argument('-v', '--retrieve', action='store_true', help='retrieve from
 parser.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a new Day')
 parser.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterday\'s Data')
 parser.add_argument('-c', '--settings', action='store_true', help='configure settings data')
+parser.add_argument('-g', '--read-notes', action='store_true', help='show notes')
+parser.add_argument('-w', '--add_note', action='store_true', help='add a new note')
+parser.add_argument('-x', '--delete_note', action='store_true', help='delete a note')
 
 ###
 args = parser.parse_args()
@@ -414,5 +459,11 @@ elif(args.yesterday):
     display_yesterday(a_id)
 elif(args.settings):
     change_settings()
+elif(args.read_notes):
+    show_notes(a_id)
+elif(args.add_note):
+    add_notes(a_name, a_id)
+elif(args.remove_note):
+    remove_note(a_id)
 else:
     display_today(a_id)
