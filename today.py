@@ -273,7 +273,7 @@ def add_notes(note, id=None):
         notes.append(note)
     write_notes(notes)
 
-def remove_notes(id=None):
+def remove_note(id=None):
     notes = read_notes()
     if(type(id)==int):
         notes.pop(note, id)
@@ -345,12 +345,14 @@ def get_themes():
 
 ## formation functins
 def to_time(m):
-    hour = (m//60)%24
+    hour = m//60%24
     minute = m%60
-    t = f"{hour}:{str(minute):0<2}"
+    t = f"{hour:>2}:{minute:0>2}"
     return(t)
 
 def to_min(duration):
+    if(duration.isnumeric()):
+        return(int(duration))
     m = re.match("^(\d+)(\w)$", duration)
     if(not(m)):
         return(None)
@@ -401,7 +403,7 @@ parser.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterd
 parser.add_argument('-c', '--settings', action='store_true', help='configure settings data')
 parser.add_argument('-g', '--read-notes', action='store_true', help='show notes')
 parser.add_argument('-w', '--add_note', action='store_true', help='add a new note')
-parser.add_argument('-x', '--delete_note', action='store_true', help='delete a note')
+parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
 
 ###
 args = parser.parse_args()
@@ -430,10 +432,7 @@ if(args.arguments):
         else: # Name only
             a_name = " ".join(args.arguments)
 if(a_duration):
-    if(is_duration(a_duration)):
-        a_duration = to_min(a_duration)
-    else:
-        a_duration = int(a_duration)
+    a_duration = to_min(a_duration)
 
 if(args.add):
     create_task(a_id, a_name, a_duration)
