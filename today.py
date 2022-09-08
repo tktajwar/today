@@ -256,8 +256,8 @@ def read_settings():
         write_settings()
 
 def update_settings():
+    global settings
     for key, value in default_settings.items():
-        global settings
         updated = []
         if(not(key in settings)):
             settings[key] = value
@@ -265,6 +265,29 @@ def update_settings():
         if(updated):
             write_settings()
             print(f"Settings was updated, new key(s) added: {updated}")
+
+def change_settings():
+    global settings
+    theme = load_theme()
+
+    def change_key(key, h, d=settings):
+        print(f"{theme['highlight']['id']}{key} {theme['escape']}({type(key)})")
+        print(h)
+        new_value = input(f"Current: {d[key]}, New: ")
+        if(new_value):
+            new_value = type(d[key])(new_value)
+            d[key] = new_value
+
+    print(f"{theme['highlight']['header']}today settings configurator{theme['escape']}")
+    print("Write the new settings value for each key and press Enter; leave Blank and press Enter to keep the old value")
+
+    change_key('time_start', "When does your day start? By Default, it's 7 in the morning.")
+    change_key('theme', "theme name")
+    print(f"{theme['highlight']['undone']}Default Task Values{theme['escape']}: the values today uses if user has not provided the argument when creating a new task")
+    change_key('name', "default task name", d=settings['default'])
+    change_key('duration', "default task duration", d=settings['default'])
+
+    write_settings()
 
 def load_theme():
     get_themes()
@@ -333,6 +356,8 @@ parser.add_argument('-p', '--purge', action='store_true', help='purge Task Data'
 parser.add_argument('-v', '--retrieve', action='store_true', help='retrieve from Purged Task Data')
 parser.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a new Day')
 parser.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterday\'s Data')
+parser.add_argument('-c', '--settings', action='store_true', help='configure settings data')
+
 ###
 args = parser.parse_args()
 
@@ -387,5 +412,7 @@ elif(args.new_day):
     newday()
 elif(args.yesterday):
     display_yesterday(a_id)
+elif(args.change_settings):
+    change_settings()
 else:
     display_today(a_id)
