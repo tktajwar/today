@@ -372,97 +372,101 @@ def is_duration(s):
     return(False)
 
 # main
-###create root directory if it does not exist
-if (not(os.path.exists(path))):
-    print(f"creating directory: {path}")
-    os.makedirs(path)
-if (not(os.path.exists(themes_path))):
-    os.makedirs(themes_path)
-    get_themes()
+def main():
+    #create root directory if it does not exist
+    if (not(os.path.exists(path))):
+        print(f"creating directory: {path}")
+        os.makedirs(path)
+    if (not(os.path.exists(themes_path))):
+        os.makedirs(themes_path)
+        get_themes()
 
-# read files
-read_settings()
-read_json()
+    # read files
+    read_settings()
+    read_json()
 
-## parse user arguments
-### positional arguments
-parser.add_argument('arguments', metavar='Arguments', nargs='*', help='Task ID [int], Name [str], Duration [int]')
-### positional requiring options
-parser.add_argument('-a', '--add', action='store_true', help='add/append a new Task [?ID][Name][Duration]')
-parser.add_argument('-d', '--done', action='store_true', help='mark a task as done [ID]')
-parser.add_argument('-u', '--undo', action='store_true', help='mark a task as undone [ID]')
-parser.add_argument('-r', '--remove', action='store_true', help='remove Task [ID]')
-parser.add_argument('-t', '--toggle', action='store_true', help='toggle Skip of Task [ID]')
-### non positional requiring options
-parser.add_argument('-da', '--done-all', action='store_true', help='mark all tasks as done')
-parser.add_argument('-ua', '--undo-all', action='store_true', help='mark all tasks as undone')
-parser.add_argument('-p', '--purge', action='store_true', help='purge Task Data')
-parser.add_argument('-v', '--retrieve', action='store_true', help='retrieve from Purged Task Data')
-parser.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a new Day')
-parser.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterday\'s Data')
-parser.add_argument('-c', '--settings', action='store_true', help='configure settings data')
-parser.add_argument('-g', '--read-notes', action='store_true', help='show notes')
-parser.add_argument('-w', '--add_note', action='store_true', help='add a new note')
-parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
+    # parse user arguments
+    ## positional arguments
+    parser.add_argument('arguments', metavar='Arguments', nargs='*', help='Task ID [int], Name [str], Duration [int]')
+    ## positional requiring options
+    parser.add_argument('-a', '--add', action='store_true', help='add/append a new Task [?ID][Name][Duration]')
+    parser.add_argument('-d', '--done', action='store_true', help='mark a task as done [ID]')
+    parser.add_argument('-u', '--undo', action='store_true', help='mark a task as undone [ID]')
+    parser.add_argument('-r', '--remove', action='store_true', help='remove Task [ID]')
+    parser.add_argument('-t', '--toggle', action='store_true', help='toggle Skip of Task [ID]')
+    ## non positional requiring options
+    parser.add_argument('-da', '--done-all', action='store_true', help='mark all tasks as done')
+    parser.add_argument('-ua', '--undo-all', action='store_true', help='mark all tasks as undone')
+    parser.add_argument('-p', '--purge', action='store_true', help='purge Task Data')
+    parser.add_argument('-v', '--retrieve', action='store_true', help='retrieve from Purged Task Data')
+    parser.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a new Day')
+    parser.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterday\'s Data')
+    parser.add_argument('-c', '--settings', action='store_true', help='configure settings data')
+    parser.add_argument('-g', '--read-notes', action='store_true', help='show notes')
+    parser.add_argument('-w', '--add_note', action='store_true', help='add a new note')
+    parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
 
-###
-args = parser.parse_args()
+    ##
+    args = parser.parse_args()
 
-a_id, a_name, a_duration = None, None, None
-if(args.arguments):
-    if(len(args.arguments) == 1): # if only one argument is passed then it's either ID or Name
-        if(args.arguments[0].isnumeric()):
+    a_id, a_name, a_duration = None, None, None
+    if(args.arguments):
+        if(len(args.arguments) == 1): # if only one argument is passed then it's either ID or Name
+            if(args.arguments[0].isnumeric()):
+                a_id = int(args.arguments[0])
+            elif(is_duration(args.arguments[0])):
+                a_duration = args.arguments[0]
+            else:
+                a_name = args.arguments[0]
+        elif(args.arguments[0].isnumeric()): # ID + Name and/or Duration
             a_id = int(args.arguments[0])
-        elif(is_duration(args.arguments[0])):
-            a_duration = args.arguments[0]
-        else:
-            a_name = args.arguments[0]
-    elif(args.arguments[0].isnumeric()): # ID + Name and/or Duration
-        a_id = int(args.arguments[0])
-        if(args.arguments[-1].isnumeric() or is_duration(args.arguments[-1])):
-            a_duration = args.arguments[-1]
-            if(len(args.arguments)>2): # everything in the middle is Name
-                a_name = " ".join(args.arguments[1:-1])
-        else: # everything to the end is Name
-            a_name = " ".join(args.arguments[1:])
-    else: # Name + Duration(*)
-        if(args.arguments[-1].isnumeric() or is_duration(args.arguments[-1])): # Name + Duration
-            a_duration = args.arguments[-1]
-            a_name = " ".join(args.arguments[:-1])
-        else: # Name only
-            a_name = " ".join(args.arguments)
-if(a_duration):
-    a_duration = to_min(a_duration)
+            if(args.arguments[-1].isnumeric() or is_duration(args.arguments[-1])):
+                a_duration = args.arguments[-1]
+                if(len(args.arguments)>2): # everything in the middle is Name
+                    a_name = " ".join(args.arguments[1:-1])
+            else: # everything to the end is Name
+                a_name = " ".join(args.arguments[1:])
+        else: # Name + Duration(*)
+            if(args.arguments[-1].isnumeric() or is_duration(args.arguments[-1])): # Name + Duration
+                a_duration = args.arguments[-1]
+                a_name = " ".join(args.arguments[:-1])
+            else: # Name only
+                a_name = " ".join(args.arguments)
+    if(a_duration):
+        a_duration = to_min(a_duration)
 
-if(args.add):
-    create_task(a_id, a_name, a_duration)
-elif(args.done):
-    task_do(a_id)
-elif(args.undo):
-    task_undo(a_id)
-elif(args.remove):
-    task_remove(a_id)
-elif(args.toggle):
-    task_toggle_skip(a_id)
-elif(args.done_all):
-    task_do_all()
-elif(args.undo_all):
-    task_undo_all()
-elif(args.purge):
-    purge()
-elif(args.retrieve):
-    retrieve()
-elif(args.new_day):
-    newday()
-elif(args.yesterday):
-    display_yesterday(a_id)
-elif(args.settings):
-    change_settings()
-elif(args.read_notes):
-    show_notes(a_id)
-elif(args.add_note):
-    add_notes(a_name, a_id)
-elif(args.remove_note):
-    remove_note(a_id)
-else:
-    display_today(a_id)
+    if(args.add):
+        create_task(a_id, a_name, a_duration)
+    elif(args.done):
+        task_do(a_id)
+    elif(args.undo):
+        task_undo(a_id)
+    elif(args.remove):
+        task_remove(a_id)
+    elif(args.toggle):
+        task_toggle_skip(a_id)
+    elif(args.done_all):
+        task_do_all()
+    elif(args.undo_all):
+        task_undo_all()
+    elif(args.purge):
+        purge()
+    elif(args.retrieve):
+        retrieve()
+    elif(args.new_day):
+        newday()
+    elif(args.yesterday):
+        display_yesterday(a_id)
+    elif(args.settings):
+        change_settings()
+    elif(args.read_notes):
+        show_notes(a_id)
+    elif(args.add_note):
+        add_notes(a_name, a_id)
+    elif(args.remove_note):
+        remove_note(a_id)
+    else:
+        display_today(a_id)
+
+if __name__ == "__main__":
+    main()
