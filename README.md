@@ -10,7 +10,7 @@
 
 Use `help` option to see full lust of arguments.
 
-`$ ./today.py -h`
+`./today.py -h`
 
 ```
 positional arguments:
@@ -35,13 +35,13 @@ options:
   -x, --remove-note  delete a note
 ```
 
-Use `today -a task_name task_duration` to add a new task.
+Use `today -a task_name task_duration` to append a new task.
 
-`$ ./today.py -a Exercise 20m`
+`today -a Exercise 20m`
 
 Run the program with no optional arguments to see your day.
 
-`./today.py`
+`today`
 
 ```
 ID Time  Name                     Duration Skip     Done
@@ -61,16 +61,19 @@ ID Time  Name                     Duration Skip     Done
 13 21:00 Browse Internet           0:30    False    False
 ```
 
-The actual program supports terminal colours and has option for themes.
-
 # Get today
 
-The only way to get **today** right now is using Git.
+**Requirements:**
 
-## CLI
+* Python 3
+* Git
 
-Copy the link to this page and open terminal
+Open your terminal and run this:
 
-`git clone link`
+`git clone https://github.com/TajwarHjkl/today`
 
-replace the *link* with the link you copied and press Enter.
+Then you can `cd` into the *today* directory and run:
+
+`./today -h`
+
+(if that does not work, you might want to make the script executeable.)
