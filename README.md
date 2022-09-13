@@ -18,7 +18,9 @@ To see how to install *today*, click [here](#Install-today).
 
 Open your terminal. To see what we can do with this program, run the command below:
 
-`today -h`
+```
+today -h
+```
 
 You should see a longer version of this help message:
 
@@ -42,13 +44,17 @@ Let's say we woke up in the morning and the first task of our day will be to exe
 
 ## adding a new task
 
-`today -a Exercise 40m`
+```
+today -a Exercise 40m
+```
 
 We are calling the program *today* and we are giving it the optional argument `-a` followed by two positonal arguments "Exercise" and "40m".
 
 Now let's check what we added:
 
-`today`
+```
+today
+```
 
 ```
 ID Time  Name     Duration Skip     Done
@@ -57,13 +63,21 @@ ID Time  Name     Duration Skip     Done
 
 It worked! Let's add some more tasks.
 
-`today -a Shower 20`
+```
+today -a Shower 20
+```
 
-`today -a Cook 1h`
+```
+today -a Cook 1h
+```
 
-`today -a Calculus Course 45m`
+```
+today -a Calculus Course 45m
+```
 
-`today -a Important Project 3h`
+```
+today -a Important Project 3h
+```
 
 Now let's check again.
 
@@ -81,7 +95,9 @@ ID Time  Name              Duration Skip     Done
 
 Did you notice that asterisk (*) beside the first task? That indicates that task is the **next** task. If you look at the help message, you will find the option for marking a task as done (it's `-d`). Let's try that.
 
-`today -d`
+```
+today -d
+```
 
 ```
 Task 0: Exercise done.
@@ -89,7 +105,9 @@ Task 0: Exercise done.
 
 We did not tell the program which task we just did, why did it pick `Task 0`? Because it was the next task on our list. Let's see our day plan again.
 
-`today`
+```
+today
+```
 
 ```
 ID Time  Name              Duration Skip     Done
@@ -105,7 +123,9 @@ Did you notice that `Shower` is now highlighted as the next task?
 
 But what if we want to mark a specific task as done? We can pass the `ID` as a positonal argument. Let's say you skipped Shower and went to cook (you stinky!). We can use `today -d` followed by the `ID` of the Task `Cook`.
 
-`today -d 2`
+```
+today -d 2
+```
 
 ```
 Task 2: Cook done.
