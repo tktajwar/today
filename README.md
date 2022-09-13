@@ -18,7 +18,7 @@ To see how to install *today*, click [here](#Install-today).
 
 Open your terminal. To see what we can do with this program, run the command below:
 
-```
+```properties
 today -h
 ```
 
@@ -44,7 +44,7 @@ Let's say we woke up in the morning and the first task of our day will be to exe
 
 ## adding a new task
 
-```
+```properties
 today -a Exercise 40m
 ```
 
@@ -52,7 +52,7 @@ We are calling the program *today* and we are giving it the optional argument `-
 
 Now let's check what we added:
 
-```
+```properties
 today
 ```
 
@@ -63,19 +63,19 @@ ID Time  Name     Duration Skip     Done
 
 It worked! Let's add some more tasks.
 
-```
+```properties
 today -a Shower 20
 ```
 
-```
+```properties
 today -a Cook 1h
 ```
 
-```
+```properties
 today -a Calculus Course 45m
 ```
 
-```
+```properties
 today -a Important Project 3h
 ```
 
@@ -95,17 +95,17 @@ ID Time  Name              Duration Skip     Done
 
 Did you notice that asterisk (*) beside the first task? That indicates that task is the **next** task. If you look at the help message, you will find the option for marking a task as done (it's `-d`). Let's try that.
 
-```
+```properties
 today -d
 ```
 
-```
+```properties
 Task 0: Exercise done.
 ```
 
 We did not tell the program which task we just did, why did it pick `Task 0`? Because it was the next task on our list. Let's see our day plan again.
 
-```
+```properties
 today
 ```
 
@@ -123,7 +123,7 @@ Did you notice that `Shower` is now highlighted as the next task?
 
 But what if we want to mark a specific task as done? We can pass the `ID` as a positonal argument. Let's say you skipped Shower and went to cook (you stinky!). We can use `today -d` followed by the `ID` of the Task `Cook`.
 
-```
+```properties
 today -d 2
 ```
 
@@ -155,7 +155,7 @@ If you want to skip a task, you can use `-t` to toggle skip status of a task. A 
 
 Open terminal and run:
 
-```
+```console
 git clone https://github.com/TajwarHjkl/today
 cd today
 pip install .
