@@ -61,17 +61,20 @@ ID Time  Name                     Duration Skip     Done
 13 21:00 Browse Internet           0:30    False    False
 ```
 
-# Get today
+# Get and Install **today**
 
 **Requirements:**
 
 * Python 3
+* Pip
 * Git
 
 Open terminal and run:
 
 `git clone https://github.com/TajwarHjkl/today`
 
-Then `cd` into the *today* directory and run:
+`cd today`
 
-`python3 today/today.py -h`
+`pip install .`
+
+`today -h`
