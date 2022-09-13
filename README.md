@@ -1,6 +1,6 @@
 # today
 
-**A terminal program to help you plan your day and execute it in an organise way**
+**A terminal program to help you plan your day and execute it in an organised way**
 
 ![screenshot_1](screenshots/screenshot_1.png)
 
@@ -8,60 +8,51 @@
 
 # Getting Started
 
-Use `help` option to see full lust of arguments.
+**today** is a day planner program written in *Python 3*. The intention of developing this program was to help people plan the tasks they are going take with the amount of time they are planning to spend on them. This Command Line program will help have a realistic idea of what you can do today and stay focused on your day plan throughout the day.
 
-`./today.py -h`
+*today* has quite a few features so this short introduction will give you an idea of what this program is about and how to start using it.
+
+To see how to install *today*, click [here](#Install today).
+
+## learning what we can do from the help message
+
+To see what we can do with this program, run the command below:
+
+`today -h`
+
+You should see a longer version of this help message:
 
 ```
 positional arguments:
-  Arguments          Task ID [int], Name [str], Duration [int]
+  Arguments            Task ID [int], Name [str], Duration [int]
 
 options:
-  -h, --help         show this help message and exit
-  -a, --add          add/append a new Task [?ID][Name][Duration]
-  -d, --done         mark a task as done [ID]
-  -u, --undo         mark a task as undone [ID]
-  -r, --remove       remove Task [ID]
-  -t, --toggle       toggle Skip of Task [ID]
-  -da, --done-all    mark all tasks as done
-  -ua, --undo-all    mark all tasks as undone
-  -p, --purge        purge Task Data
-  -v, --retrieve     retrieve from Purged Task Data
-  -n, --new-day      store current Task Data as Yesterday and start a new Day
-  -y, --yesterday    Show Yesterday's Data
-  -c, --settings     configure settings data
-  -g, --read-notes   show notes
-  -w, --add_note     add a new note
-  -x, --remove-note  delete a note
+  -h, --help           show this help message and exit
+  -a, --add            add/append a new Task [Name][Duration]
+  -d, --done           mark a task as done [ID]
+  -u, --undo           mark a task as undone [ID]
+  -r, --remove         remove Task [ID]
+  -t, --toggle         toggle Skip of Task [ID]
+  -c, --settings       configure settings data
 ```
 
-Use `today -a task_name task_duration` to append a new task.
+This is the shortened version of the help message for *today*. We will only be looking at what we need to know to get started using the program.
 
-`today -a Exercise 20m`
+Let's say we woke up in the morning and the first task of our day will be to exercise for 40 minutes. But how do we add a new task? Well if you look under the options, you will see one that starts with `-a` with the message "add/append a new Task [Name] [Duration]".  Let's use that.
 
-Run the program with no optional arguments to see your day.
+## adding a new task
+
+`today -a Exercise 40m`
+
+We are calling the program *today* and we are giving it the optional argument `-a` followed by two positonal arguments "Exercise" and "40m".
+
+Now let's check what we added:
 
 `today`
 
-```
-ID Time  Name                     Duration Skip     Done
-0   7:00 Exercise                  0:40    False    True
-1   7:40 Shower                    0:20    False    True
-2   8:00 Cook                      1:00    False    True
-3   9:00 Calculus Course           0:30    False    False    <---
-4   9:30 Work on Project           2:00    False    False
-5  11:30 Data Structure course     0:30    False    False
-6  12:00 Cook                      1:00    False    False
-7  13:00 Watch La Maesta de El St  3:00    False    False
-8  16:00 Shower                    0:20    False    False
-9  16:20 solve puzzles             0:40    False    False
-10 17:00 practise typing           1:00    False    False
-11 18:00 Work on Project           2:00    False    False
-12 20:00 Read a Book               1:00    False    False
-13 21:00 Browse Internet           0:30    False    False
-```
 
-# Get and Install **today**
+
+# Install today
 
 **Requirements:**
 
