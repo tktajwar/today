@@ -58,8 +58,11 @@ ID Time  Name     Duration Skip     Done
 It worked! Let's add some more tasks.
 
 `today -a Shower 20`
+
 `today -a Cook 1h`
+
 `today -a Calculus Course 45m`
+
 `today -a Important Project 3h`
 
 Now let's check again.
