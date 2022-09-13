@@ -12,7 +12,7 @@
 
 *today* has quite a few features. This short introduction will give you an idea of what this program is about and how to start using it.
 
-To see how to install *today*, click [here](#Install today).
+To see how to install *today*, click [here](#Install-today).
 
 ## the help message
 
