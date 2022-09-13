@@ -74,6 +74,4 @@ Open your terminal and run this:
 
 Then you can `cd` into the *today* directory and run:
 
-`./today -h`
-
-(if that does not work, you might want to make the script executeable.)
+`python3 today/today.py -h`
