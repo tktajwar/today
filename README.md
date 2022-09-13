@@ -135,10 +135,9 @@ If you want to skip a task, you can use `-t` to toggle skip status of a task. A 
 
 Open terminal and run:
 
-`git clone https://github.com/TajwarHjkl/today`
-
-`cd today`
-
-`pip install .`
-
-`today -h`
+```
+git clone https://github.com/TajwarHjkl/today
+cd today
+pip install .
+today -h
+```
