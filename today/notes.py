@@ -26,7 +26,7 @@ def read():
     except FileNotFoundError:
         print('Notes file does not exist. Creating a new one.')
         write(notes)
-        return(False)
+        return([])
     return(notes)
 
 def add(note, id=None):

@@ -18,7 +18,7 @@ def update():
     for theme in os.listdir(paths.themes_source):
         if(theme not in themes_ls):
             copyfile(os.path.join(paths.themes_source, theme), os.path.join(paths.themes_path, theme))
-            print(f"Copied new themes to {paths.themes_path}")
+            print(f"Copied theme {theme} to {paths.themes_path}")
 
 
 def create():
@@ -44,5 +44,3 @@ def create():
     path = 'themes/' + name + '.json'
     with open(path, 'w') as data:
         json.dump(theme, data)
-
-update()
