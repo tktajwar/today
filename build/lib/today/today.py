@@ -65,7 +65,7 @@ def main():
             else: # Name only
                 a_name = " ".join(args.arguments)
     if(a_duration):
-        a_duration = to_min(a_duration)
+        a_duration = time_formatting.to_min(a_duration)
 
     if(args.add):
         task_manupulation.create(a_id, a_name, a_duration)
