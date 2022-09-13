@@ -33,6 +33,7 @@ def main():
     parser.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a new Day')
     parser.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterday\'s Data')
     parser.add_argument('-c', '--settings', action='store_true', help='configure settings data')
+    parser.add_argument('-ct', '--change-theme', action='store_true', help='change theme')
     parser.add_argument('-g', '--read-notes', action='store_true', help='show notes')
     parser.add_argument('-w', '--add_note', action='store_true', help='add a new note')
     parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
@@ -90,6 +91,8 @@ def main():
         task_manupulation.display_yesterday(a_id)
     elif(args.settings):
         settings_manupulation.change()
+    elif(args.change_theme):
+        settings_manupulation.change_theme()
     elif(args.read_notes):
         notes.show(a_id)
     elif(args.add_note):

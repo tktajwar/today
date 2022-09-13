@@ -1,4 +1,5 @@
 import json
+import os
 
 import paths
 import theme_manupulation
@@ -61,8 +62,29 @@ def change():
     print(f"{theme['highlight']['undone']}Default Task Values{theme['escape']}: the values today uses if user has not provided the argument when creating a new task")
     change_key('name', "default task name", d=settings['default'])
     change_key('duration', "default task duration", d=settings['default'])
-
     write()
+
+def change_theme():
+    global settings
+    theme = theme_manupulation.load()
+
+    def theme_name(t):
+        return(t[:-5])
+
+    print(f"Current theme: {settings['theme']}")
+    print(f"{theme['highlight']['header']}Available Themes:{theme['escape']}")
+    themes_ls = os.listdir(paths.themes_path)
+    themes_ls = list(map(theme_name, themes_ls))
+    for i, t in enumerate(themes_ls):
+        print(f"{theme['highlight']['id']}{i}{theme['escape']}\t{t}")
+    try:
+        ui = int(input("Select theme: "))
+        settings['theme'] = themes_ls[ui]
+        write()
+    except ValueError:
+        print("Select using the ID number.")
+    except IndexError:
+        print("Invalid ID!")
 
 paths.check_and_create()
 read()
