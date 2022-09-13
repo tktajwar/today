@@ -81,6 +81,10 @@ today -a Important Project 3h
 
 Now let's check again.
 
+```console
+today
+```
+
 ```
 ID Time  Name              Duration Skip     Done
 0   7:00 Exercise           0:40    False    False    *
