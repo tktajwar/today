@@ -1,0 +1,1 @@
+{"highlight": {"id": "\u001b[91m", "header": "\u001b[4m\u001b[95m", "done": "\u001b[32m", "skip": "\u001b[90m", "undone": {"even": "\u001b[93m", "odd": "\u001b[33m"}, "next": {"col": "\u001b[30m\u001b[103m", "pointer": "*"}}, "escape": "\u001b[0m"}

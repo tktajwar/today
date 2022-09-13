@@ -1,6 +1,3 @@
-*.json
-!themes/*
-
 # Compiled python modules.
 *.pyc
 
