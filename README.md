@@ -68,10 +68,10 @@ ID Time  Name                     Duration Skip     Done
 * Python 3
 * Git
 
-Open your terminal and run this:
+Open terminal and run:
 
 `git clone https://github.com/TajwarHjkl/today`
 
-Then you can `cd` into the *today* directory and run:
+Then `cd` into the *today* directory and run:
 
 `python3 today/today.py -h`
