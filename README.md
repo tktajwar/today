@@ -155,7 +155,7 @@ If you want to skip a task, you can use `-t` to toggle skip status of a task. A 
 * Pip
 * Git
 
-## Using Git and Pip
+## git+pip
 
 Open terminal and run:
 
@@ -165,3 +165,22 @@ cd today
 pip install .
 today -h
 ```
+
+
+## today: command not found
+
+### Debain/Ubuntu
+
+`~/.local/bin` is not on the default Debian/Ubuntu `$PATH`. To fix this issue, run:
+
+```console
+echo export PATH="\$HOME/.local/bin:\$PATH" >> .profile
+```
+
+Then restart your shell.
+
+`today -h` should work from then.
+
+### macOS
+
+Please read [this](https://stackoverflow.com/questions/35898734/pip-installs-packages-successfully-but-executables-not-found-from-command-line).
