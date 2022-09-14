@@ -12,11 +12,13 @@
 
 *today* has quite a few features. This short introduction will give you an idea of what this program is about and how to start using it.
 
-To see how to install *today*, click [here](#Install-today).
+To see how to install *today*, scroll down to [installation guide](#Install-today).
 
 ## the help message
 
-Open your terminal. To see what we can do with this program, run the command below:
+Open your terminal.
+
+To see what we can do with this program, run the command below:
 
 ```console
 today -h
@@ -125,7 +127,11 @@ ID Time  Name              Duration Skip     Done
 
 Did you notice that `Shower` is now highlighted as the next task?
 
-But what if we want to mark a specific task as done? We can pass the `ID` as a positonal argument. Let's say you skipped Shower and went to cook (you stinky!). We can use `today -d` followed by the `ID` of the Task `Cook`.
+## using ID
+
+But what if we want to mark a specific task as done?
+
+We can pass the `ID` as a positonal argument. Let's say you skipped Shower and went to cook (you stinky!). We can use `today -d` followed by the `ID` of the Task `Cook`.
 
 ```console
 today -d 2
@@ -145,17 +151,15 @@ If you want to skip a task, you can use `-t` to toggle skip status of a task. A 
 
 `-r` will remove a task. Be careful, this option is not reversible.
 
-*today* comes with many more optional arguments that you can learn on your own.
+*today* comes with many more optional arguments that you can learn on your own. The Help message and experimentation are your friends.
 
 # Install today
 
 **Requirements:**
 
-* Python 3
-* Pip
-* Git
-
-## git+pip
+* [Python 3](https://wiki.python.org/moin/BeginnersGuide/Download)
+* [Pip](https://pip.pypa.io/en/stable/installation/) (should come preinstalled with Python 3)
+* [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) (should come preinstalled on Linux and macOS)
 
 Open terminal and run:
 
@@ -165,7 +169,7 @@ cd today
 pip install .
 today -h
 ```
-
+Enjoy using *today*!
 
 ## today: command not found
 
@@ -178,8 +182,6 @@ echo export PATH="\$HOME/.local/bin:\$PATH" >> .profile
 ```
 
 Then restart your shell.
-
-`today -h` should work from then.
 
 ### macOS
 
