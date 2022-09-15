@@ -173,7 +173,7 @@ Enjoy using *today*!
 
 ## today: command not found
 
-### Debain/Ubuntu
+### Debian/Ubuntu
 
 `~/.local/bin` is not on the default Debian/Ubuntu `$PATH`. To fix this issue, run:
 
