@@ -100,6 +100,7 @@ def display(tasks, id=None):
         if(i == next_undone and theme['highlight']['next']['pointer']):
             print(theme['highlight']['next']['pointer'], end='')
         print(theme['escape'])
+    print(f"{theme['highlight']['skip']}-> {time_formatting.to_time(time)}{theme['escape']}") # the time last task ends
     return(True)
 
 def display_today(id=None):
