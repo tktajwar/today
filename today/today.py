@@ -26,7 +26,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_times=1):
         task_manupulation.task_undo(a_id)
     elif(args.remove):
         task_manupulation.task_remove(a_id)
-    elif(args.toggle):
+    elif(args.skip):
         task_manupulation.task_toggle_skip(a_id)
     elif(args.done_all):
         task_manupulation.task_do_all()
@@ -67,7 +67,7 @@ def main():
     parser.add_argument('-d', '--done', action='store_true', help='mark a task as done [ID]')
     parser.add_argument('-u', '--undo', action='store_true', help='mark a task as undone [ID]')
     parser.add_argument('-r', '--remove', action='store_true', help='remove Task [ID]')
-    parser.add_argument('-t', '--toggle', action='store_true', help='toggle Skip of Task [ID]')
+    parser.add_argument('-s', '--skip', action='store_true', help='toggle Skip of Task [ID]')
     ## non positional requiring options
     parser.add_argument('-da', '--done-all', action='store_true', help='mark all tasks as done')
     parser.add_argument('-ua', '--undo-all', action='store_true', help='mark all tasks as undone')
@@ -80,9 +80,15 @@ def main():
     parser.add_argument('-g', '--read-notes', action='store_true', help='show notes')
     parser.add_argument('-w', '--add-note', action='store_true', help='add a new note')
     parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
+    ## 
+    parser.add_argument('-t', action='store', type=int, help='how many times you want to do this action [int]')
 
     ##
     args = parser.parse_args()
+
+    a_times = 1
+    if(args.t):
+        a_times = args.t
 
     a_id, a_name, a_duration = None, None, None
     if(args.arguments):
@@ -110,7 +116,7 @@ def main():
     if(a_duration):
         a_duration = time_formatting.to_min(a_duration)
 
-    parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration)
+    parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_times=a_times)
 
     
 if __name__ == "__main__":
