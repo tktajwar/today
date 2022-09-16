@@ -4,6 +4,7 @@ import os
 from . import paths
 from . import theme_manupulation
 from . import theme_manupulation
+from . import time_formatting
 
 default_settings = {
         'time_start': 420,
@@ -46,20 +47,31 @@ def change():
     global settings
     theme = theme_manupulation.load()
 
-    def change_key(key, h, d=settings):
-        print(f"{theme['highlight']['id']}{key} {theme['escape']}({type(key)})")
+    def to_time_start(s):
+        if(':' in s):
+            s  = s.split(':')
+            return(int(s[0])*60 + int(s[1]))
+        if(time_formatting.is_duration(s)):
+            return(time_formatting.to_min(s))
+        return(s)
+
+
+    def change_key(key, h, d=settings, func=None):
+        print(f"{theme['highlight']['id']}{key} {theme['escape']}")
         print(h)
         new_value = input(f"Current: {d[key]}, New: ")
-        if(new_value):
+        if(func):
+            new_value=func(new_value)
+        print(new_value)
+        if(new_value or type(new_value)==int):
             new_value = type(d[key])(new_value)
             d[key] = new_value
 
     print(f"{theme['highlight']['header']}today settings configurator{theme['escape']}")
     print("Write the new settings value for each key and press Enter; leave Blank and press Enter to keep the old value")
 
-    change_key('time_start', "When does your day start? By Default, it's 7 in the morning.")
-    change_key('theme', "theme name")
-    print(f"{theme['highlight']['undone']}Default Task Values{theme['escape']}: the values today uses if user has not provided the argument when creating a new task")
+    change_key('time_start', "When does your day start? By Default, it's 7 in the morning.", func=to_time_start)
+    print(f"{theme['highlight']['undone']['even']}Default Task Values{theme['escape']}: the values today uses if user has not provided the argument when creating a new task")
     change_key('name', "default task name", d=settings['default'])
     change_key('duration', "default task duration", d=settings['default'])
     write()

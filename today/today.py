@@ -11,8 +11,6 @@ from . import time_formatting
 # variables and parsing arguments
 ## parser
 parser = argparse.ArgumentParser('plan and execute your day in an organised way')
-##
-is_duration = time_formatting.is_duration
 
 # argument parsing function
 def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_times=1):
@@ -110,20 +108,20 @@ def main():
         if(len(args.arguments) == 1): # if only one argument is passed then it's either ID or Name
             if(args.arguments[0].isnumeric()):
                 a_id = int(args.arguments[0])
-            elif(is_duration(args.arguments[0])):
+            elif(time_formatting.is_duration(args.arguments[0])):
                 a_duration = args.arguments[0]
             else:
                 a_name = args.arguments[0]
         elif(args.arguments[0].isnumeric()): # ID + Name and/or Duration
             a_id = int(args.arguments[0])
-            if(args.arguments[-1].isnumeric() or is_duration(args.arguments[-1])):
+            if(args.arguments[-1].isnumeric() or time_formatting.is_duration(args.arguments[-1])):
                 a_duration = args.arguments[-1]
                 if(len(args.arguments)>2): # everything in the middle is Name
                     a_name = " ".join(args.arguments[1:-1])
             else: # everything to the end is Name
                 a_name = " ".join(args.arguments[1:])
         else: # Name + Duration(*)
-            if(args.arguments[-1].isnumeric() or is_duration(args.arguments[-1])): # Name + Duration
+            if(args.arguments[-1].isnumeric() or time_formatting.is_duration(args.arguments[-1])): # Name + Duration
                 a_duration = args.arguments[-1]
                 a_name = " ".join(args.arguments[:-1])
             else: # Name only
