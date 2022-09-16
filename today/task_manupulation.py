@@ -38,6 +38,15 @@ def task_remove(id=None):
         tasks.pop()
     data_manupulation.write()
 
+def task_modify(id=None, name=None, duration=None):
+    global tasks
+    if(type(id) != int):
+        id=len(tasks)-1
+    if(name):
+        tasks[id]['name'] = name
+    if(duration):
+        tasks[id]['duration'] = duration
+    data_manupulation.write()
 
 def display(tasks, id=None):
     theme = theme_manupulation.load()

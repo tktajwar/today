@@ -28,6 +28,8 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_times=1):
         task_manupulation.task_remove(a_id)
     elif(args.skip):
         task_manupulation.task_toggle_skip(a_id)
+    elif(args.modify):
+        task_manupulation.task_modify(a_id, a_name, a_duration)
     elif(args.done_all):
         task_manupulation.task_do_all()
     elif(args.undo_all):
@@ -76,6 +78,7 @@ def main():
     parser.add_argument('-u', '--undo', action='store_true', help='mark a task as undone [ID]')
     parser.add_argument('-r', '--remove', action='store_true', help='remove Task [ID]')
     parser.add_argument('-s', '--skip', action='store_true', help='toggle Skip of Task [ID]')
+    parser.add_argument('-m', '--modify', action='store_true', help='modify task with new name and duration [ID]')
     ## non positional requiring options
     parser.add_argument('-da', '--done-all', action='store_true', help='mark all tasks as done')
     parser.add_argument('-ua', '--undo-all', action='store_true', help='mark all tasks as undone')
