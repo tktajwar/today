@@ -1,6 +1,6 @@
 import json
 from os.path import join
-from os import listdir
+from os import listdir, remove
 
 from . import paths
 

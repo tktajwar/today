@@ -55,7 +55,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_
     elif(args.xl):
         data_manupulation.load(args.xl)
     elif(args.xx):
-        data_manupulation.save(args.xx)
+        data_manupulation.delete(args.xx)
     elif(args.ls):
         data_manupulation.list()
     else:
