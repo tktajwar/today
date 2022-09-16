@@ -50,6 +50,14 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_times=1):
         notes.add(a_name, a_id)
     elif(args.remove_note):
         notes.remove(a_id)
+    elif(args.xs):
+        data_manupulation.save(args.xs)
+    elif(args.xl):
+        data_manupulation.load(args.xl)
+    elif(args.xx):
+        data_manupulation.save(args.xx)
+    elif(args.ls):
+        data_manupulation.list()
     else:
         task_manupulation.display_today(a_id)
 
@@ -81,7 +89,11 @@ def main():
     parser.add_argument('-w', '--add-note', action='store_true', help='add a new note')
     parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
     ## 
-    parser.add_argument('-t', action='store', type=int, help='how many times you want to do this action [int]')
+    parser.add_argument('-t', metavar='[times]', action='store', type=int, help='how many times you want to do this action')
+    parser.add_argument('-xs', metavar='[filename]', action='store', type=str, help='save to a file')
+    parser.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load from a file')
+    parser.add_argument('-xx', metavar='[filename]', action='store', type=str, help='load from a file')
+    parser.add_argument('-ls', action='store_true', help='list saved files')
 
     ##
     args = parser.parse_args()

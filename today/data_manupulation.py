@@ -1,4 +1,6 @@
 import json
+from os.path import join
+from os import listdir
 
 from . import paths
 
@@ -48,5 +50,32 @@ def read():
         print('Data file does not exist. Creating a new one.')
         tasks = []
         write()
+
+def save(filename='default'):
+    filename = filename + '.json'
+    with open(join(paths.save_path, filename), 'w') as data:
+        json.dump(tasks, data)
+
+def load(filename='default'):
+    filename = filename + '.json'
+    global tasks
+    try:
+        with open(join(paths.save_path, filename), 'r') as data:
+            save(filename='last_unsaved')
+            tasks = json.load(data)
+            write()
+    except FileNotFoundError:
+        print(f"No file saved with the name {filename}.")
+
+def delete(filename='default'):
+    filename = filename + '.json'
+    try:
+        remove(join(paths.save_path, filename))
+    except FileNotFoundError:
+        print(f"No file saved with the name {filename}.")
+
+def list():
+    for file in listdir(paths.save_path):
+        print(file)
 
 read()
