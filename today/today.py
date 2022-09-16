@@ -13,11 +13,11 @@ from . import time_formatting
 parser = argparse.ArgumentParser('plan and execute your day in an organised way')
 
 # argument parsing function
-def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_times=1):
+def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_times=1):
     if(a_times < 1):
         return(False)
     if(args.add):
-        task_manupulation.create(a_id, a_name, a_duration)
+        task_manupulation.create(a_id, a_name, a_duration, start_at=a_sa)
     elif(args.done):
         task_manupulation.task_do(a_id)
     elif(args.undo):
@@ -27,7 +27,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_times=1):
     elif(args.skip):
         task_manupulation.task_toggle_skip(a_id)
     elif(args.modify):
-        task_manupulation.task_modify(a_id, a_name, a_duration)
+        task_manupulation.task_modify(a_id, a_name, a_duration, a_sa)
     elif(args.done_all):
         task_manupulation.task_do_all()
     elif(args.undo_all):
@@ -61,7 +61,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_times=1):
     else:
         task_manupulation.display_today(a_id)
 
-    parse_arguments(args, a_id, a_name, a_duration, a_times-1)
+    parse_arguments(args, a_id, a_name, a_duration, a_sa, a_times=a_times-1)
     return(True)
 
 
@@ -95,6 +95,7 @@ def main():
     parser.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load from a file')
     parser.add_argument('-xx', metavar='[filename]', action='store', type=str, help='load from a file')
     parser.add_argument('-ls', action='store_true', help='list saved files')
+    parser.add_argument('-sa', metavar='[start at]', action='store', type=str, help='what time do you want a task to start')
 
     ##
     args = parser.parse_args()
@@ -129,7 +130,12 @@ def main():
     if(a_duration):
         a_duration = time_formatting.to_min(a_duration)
 
-    parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_times=a_times)
+    if(args.sa):
+        a_sa = time_formatting.to_min(args.sa)
+    else:
+        a_sa = None
+
+    parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_sa=a_sa, a_times=a_times)
 
     
 if __name__ == "__main__":

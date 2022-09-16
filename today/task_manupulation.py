@@ -10,9 +10,9 @@ settings = settings_manupulation.settings
 
 tasks = data_manupulation.tasks
 
-def create(id=None, name=None, duration=None, skip=False, done=False):
+def create(id=None, name=None, duration=None, skip=False, done=False, start_at=None):
     global tasks
-
+    
     if(not(name)):
         name = settings['default']['name']
     if(not(duration)):
@@ -24,11 +24,15 @@ def create(id=None, name=None, duration=None, skip=False, done=False):
         'skip': skip,
         "done": done,
         }
-    if(type(id)==int):
+    if(type(start_at)==int):
+        task['start_at'] = start_at
+        tasks.insert(get_next(start_at), task)
+    elif(type(id)==int):
         tasks.insert(id, task)
     else:
         tasks.append(task)
     data_manupulation.write()
+    return(True)
 
 def task_remove(id=None):
     global tasks
@@ -38,7 +42,7 @@ def task_remove(id=None):
         tasks.pop()
     data_manupulation.write()
 
-def task_modify(id=None, name=None, duration=None):
+def task_modify(id=None, name=None, duration=None, start_at=None):
     global tasks
     if(type(id) != int):
         id=len(tasks)-1
@@ -46,6 +50,8 @@ def task_modify(id=None, name=None, duration=None):
         tasks[id]['name'] = name
     if(duration):
         tasks[id]['duration'] = duration
+    if(type(start_at)==int):
+        tasks[id]['start_at'] = start_at
     data_manupulation.write()
 
 def display(tasks, id=None):
@@ -84,7 +90,14 @@ def display(tasks, id=None):
     print()
 
     next_undone = get_first({'done':False, 'skip': False})
+
+    keys = ['name', 'duration', 'skip', 'done']
     for i in range(len(tasks)):
+        # if task has start time
+        if('start_at' in tasks[i]):
+            time = tasks[i]['start_at']
+
+        # print highlighting
         if(tasks[i]['done']):
             print(theme['highlight']['done'], end='')
         elif(tasks[i]['skip']):
@@ -98,18 +111,25 @@ def display(tasks, id=None):
                 else:
                     print(theme['highlight']['undone']['odd'], end='')
 
+        # print task attributes
         print_attr(i, lengths[0])
         print_attr(time_formatting.to_time(time), lengths[1])
-        for key, j in zip(tasks[i], range(len(tasks[i]))):
+
+        for j, key in enumerate(keys):
             value = tasks[i][key]
             if(key=='duration'):
                 value = time_formatting.to_time(value)
             print_attr(value, lengths[j+2])
+
+        # increase time
         time += tasks[i]['duration']
+
         if(i == next_undone and theme['highlight']['next']['pointer']):
-            print(theme['highlight']['next']['pointer'], end='')
+            print(theme['highlight']['next']['pointer'], end='') # print pointer
         print(theme['escape'])
-    print(f"{theme['highlight']['skip']}-> {time_formatting.to_time(time)}{theme['escape']}") # the time last task ends
+
+    # the time last task ends
+    print(f"{theme['highlight']['skip']}-> {time_formatting.to_time(time)}{theme['escape']}") 
     return(True)
 
 def display_today(id=None):
@@ -189,3 +209,13 @@ def get_first(d: dict, step=1):
             return(i)
     return(False)
  
+def get_next(given_time):
+    time = settings['time_start']
+    for i, task in enumerate(tasks):
+        if 'start_at' in task:
+            time = task['start_at'] + task['duration']
+        else:
+            time += task['duration']
+        if(time > given_time):
+            return(i)
+    return(len(tasks))
