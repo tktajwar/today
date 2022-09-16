@@ -9,6 +9,9 @@ def to_time(m):
 def to_min(duration):
     if(duration.isnumeric()):
         return(int(duration))
+    if(':' in duration):
+        s  = duration.split(':')
+        return(int(s[0])*60 + int(s[1]))
     m = re.match("^(\d+)(\w)$", duration)
     if(not(m)):
         return(None)

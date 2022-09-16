@@ -47,15 +47,6 @@ def change():
     global settings
     theme = theme_manupulation.load()
 
-    def to_time_start(s):
-        if(':' in s):
-            s  = s.split(':')
-            return(int(s[0])*60 + int(s[1]))
-        if(time_formatting.is_duration(s)):
-            return(time_formatting.to_min(s))
-        return(s)
-
-
     def change_key(key, h, d=settings, func=None):
         print(f"{theme['highlight']['id']}{key} {theme['escape']}")
         print(h)
@@ -70,7 +61,7 @@ def change():
     print(f"{theme['highlight']['header']}today settings configurator{theme['escape']}")
     print("Write the new settings value for each key and press Enter; leave Blank and press Enter to keep the old value")
 
-    change_key('time_start', "When does your day start? By Default, it's 7 in the morning.", func=to_time_start)
+    change_key('time_start', "When does your day start? By Default, it's 7 in the morning.", func=time_formatting.to_min)
     print(f"{theme['highlight']['undone']['even']}Default Task Values{theme['escape']}: the values today uses if user has not provided the argument when creating a new task")
     change_key('name', "default task name", d=settings['default'])
     change_key('duration', "default task duration", d=settings['default'])
