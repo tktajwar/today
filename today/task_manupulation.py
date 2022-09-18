@@ -42,16 +42,25 @@ def task_remove(id=None):
         tasks.pop()
     data_manupulation.write()
 
-def task_modify(id=None, name=None, duration=None, start_at=None):
+def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
     global tasks
+    # if no ID is passed then pick the last task
     if(type(id) != int):
         id=len(tasks)-1
+    # modify name
     if(name):
         tasks[id]['name'] = name
+    # modify duration
     if(duration):
         tasks[id]['duration'] = duration
+    # modify task start time
     if(type(start_at)==int):
         tasks[id]['start_at'] = start_at
+    # modify ID
+    if(type(new_id)==int):
+        task = tasks[id]
+        tasks.pop(id)
+        tasks.insert(new_id, task)
     data_manupulation.write()
 
 def display(tasks, id=None):
