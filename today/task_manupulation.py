@@ -13,24 +13,30 @@ tasks = data_manupulation.tasks
 def create(id=None, name=None, duration=None, skip=False, done=False, start_at=None):
     global tasks
     
+    # use default values if name and/or duration is not provided
     if(not(name)):
         name = settings['default']['name']
     if(not(duration)):
         duration = settings['default']['duration']
 
+    # create task
     task = {
         "name": name,
         "duration": int(duration),
         'skip': skip,
         "done": done,
         }
+    # find the appropriate id if start time is provided
     if(type(start_at)==int):
         task['start_at'] = start_at
         tasks.insert(get_next(start_at), task)
+    # else, use the id if provided
     elif(type(id)==int):
         tasks.insert(id, task)
+    # else, append
     else:
         tasks.append(task)
+    # write to file
     data_manupulation.write()
     return(True)
 
@@ -64,7 +70,9 @@ def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
     data_manupulation.write()
 
 def display(tasks, id=None):
+    # load up theme
     theme = theme_manupulation.load()
+    # if ID is provided, return task with that ID
     if(type(id)==int):
         if(id<len(tasks)):
             print(tasks[id])
@@ -72,8 +80,10 @@ def display(tasks, id=None):
         else:
             raise ValueError(f"No Task with the {theme['highlight']['id']}ID {id}{theme['escape']} exists.")
 
+    # time passed's initial value is the time user set for when their day start
     time = settings['time_start']
 
+    # get max lenghts of each attributes for padding
     def get_attr_lengths():
         lengths = []
         lengths.append(max(len(str(len(tasks))), 2))
@@ -98,6 +108,7 @@ def display(tasks, id=None):
         print_header(attr, i)
     print()
 
+    # new task that is neither done nor marked to skip
     next_undone = get_first({'done':False, 'skip': False})
 
     keys = ['name', 'duration', 'skip', 'done']

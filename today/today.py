@@ -14,53 +14,77 @@ parser = argparse.ArgumentParser('plan and execute your day in an organised way'
 
 # argument parsing function
 def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_times=1):
+    # if the number of times left for this function to run is less than 1
     if(a_times < 1):
         return(False)
+    # task add
     if(args.add):
         task_manupulation.create(a_id, a_name, a_duration, start_at=a_sa)
+    # task done
     elif(args.done):
         task_manupulation.task_do(a_id)
+    # task undo
     elif(args.undo):
         task_manupulation.task_undo(a_id)
+    # task remove
     elif(args.remove):
         task_manupulation.task_remove(a_id)
+    # task skip
     elif(args.skip):
         task_manupulation.task_toggle_skip(a_id)
+    # task modify
     elif(type(args.m)==int):
         task_manupulation.task_modify(args.m, a_id, a_name, a_duration, a_sa)
+    # task done all
     elif(args.done_all):
         task_manupulation.task_do_all()
+    # task undo all
     elif(args.undo_all):
         task_manupulation.task_undo_all()
+    # data purge
     elif(args.purge):
         data_manupulation.purge()
+    # data retrieve
     elif(args.retrieve):
         data_manupulation.retrieve()
+    # data newday
     elif(args.new_day):
         data_manupulation.newday()
+    # data yesterday
     elif(args.yesterday):
         task_manupulation.display_yesterday(a_id)
+    # settings configure
     elif(args.settings):
         settings_manupulation.change()
+    # settings theme change
     elif(args.change_theme):
         settings_manupulation.change_theme()
+    # notes show
     elif(args.read_notes):
         notes.show(a_id)
+    # notes add
     elif(args.add_note):
         notes.add(a_name, a_id)
+    # notes remove
     elif(args.remove_note):
         notes.remove(a_id)
+    # data save file
     elif(args.xs):
         data_manupulation.save(args.xs)
+    # dat load file
     elif(args.xl):
         data_manupulation.load(args.xl)
+    # data delete file
     elif(args.xx):
         data_manupulation.delete(args.xx)
+    # data list files
     elif(args.ls):
         data_manupulation.list()
+    # task display
     else:
         task_manupulation.display_today(a_id)
 
+    # start next parser with times left decremented
     parse_arguments(args, a_id, a_name, a_duration, a_sa, a_times=a_times-1)
     return(True)
 
@@ -89,7 +113,7 @@ def main():
     parser.add_argument('-w', '--add-note', action='store_true', help='add a new note')
     parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
     ## 
-    parser.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify task with new name and duration [ID]')
+    parser.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify task with new name and duration')
     parser.add_argument('-t', metavar='[times]', action='store', type=int, help='how many times you want to do this action')
     parser.add_argument('-xs', metavar='[filename]', action='store', type=str, help='save to a file')
     parser.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load from a file')
@@ -100,40 +124,51 @@ def main():
     ##
     args = parser.parse_args()
 
+    # number of times the action will be run
     a_times = 1
     if(args.t):
         a_times = args.t
 
+    # get ID, name and duration from user argument
     a_id, a_name, a_duration = None, None, None
     if(args.arguments):
-        if(len(args.arguments) == 1): # if only one argument is passed then it's either ID or Name
+        # if only one argument is passed (ID/Name/Duration)
+        if(len(args.arguments) == 1): 
             if(args.arguments[0].isnumeric()):
                 a_id = int(args.arguments[0])
             elif(time_formatting.is_duration(args.arguments[0])):
                 a_duration = args.arguments[0]
             else:
                 a_name = args.arguments[0]
-        elif(args.arguments[0].isnumeric()): # ID + Name and/or Duration
+        # first item is numeric (ID + Name and/or Duration)
+        elif(args.arguments[0].isnumeric()):
             a_id = int(args.arguments[0])
+            # last item is numeric/duration
             if(args.arguments[-1].isnumeric() or time_formatting.is_duration(args.arguments[-1])):
                 a_duration = args.arguments[-1]
-                if(len(args.arguments)>2): # everything in the middle is Name
+                # everything in the middle is Name
+                if(len(args.arguments)>2):
                     a_name = " ".join(args.arguments[1:-1])
-            else: # everything to the end is Name
+            # if not, everything to the end is Name
+            else: 
                 a_name = " ".join(args.arguments[1:])
-        else: # Name + Duration(*)
-            if(args.arguments[-1].isnumeric() or time_formatting.is_duration(args.arguments[-1])): # Name + Duration
+        # (Name and/or Duration)
+        else:
+            # last item is numeric/duration
+            if(args.arguments[-1].isnumeric() or time_formatting.is_duration(args.arguments[-1])):
                 a_duration = args.arguments[-1]
                 a_name = " ".join(args.arguments[:-1])
-            else: # Name only
+            # Name only
+            else:
                 a_name = " ".join(args.arguments)
+
+    # turn duration into minutes
     if(a_duration):
         a_duration = time_formatting.to_min(a_duration)
-
+    # turn start_at duration into minutes
+    a_sa = None
     if(args.sa):
         a_sa = time_formatting.to_min(args.sa)
-    else:
-        a_sa = None
 
     parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_sa=a_sa, a_times=a_times)
 
