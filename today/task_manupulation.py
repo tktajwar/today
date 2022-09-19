@@ -6,16 +6,20 @@ from . import paths
 from . import settings_manupulation
 from . import time_formatting
 
+# get settings data
 settings = settings_manupulation.settings
 
+# get tasks data
 tasks = data_manupulation.tasks
 
+# create a new task
 def create(id=None, name=None, duration=None, skip=False, done=False, start_at=None):
     global tasks
     
-    # use default values if name and/or duration is not provided
+    # use default values if arguments are not provided
     if(not(name)):
         name = settings['default']['name']
+
     if(not(duration)):
         duration = settings['default']['duration']
 
@@ -26,42 +30,59 @@ def create(id=None, name=None, duration=None, skip=False, done=False, start_at=N
         'skip': skip,
         "done": done,
         }
+
     # find the appropriate id if start time is provided
     if(type(start_at)==int):
         task['start_at'] = start_at
         tasks.insert(get_next(start_at), task)
+
     # else, use the id if provided
     elif(type(id)==int):
         tasks.insert(id, task)
+
     # else, append
     else:
         tasks.append(task)
-    # write to file
+
+    # write task data
     data_manupulation.write()
     return(True)
 
+# remove task
 def task_remove(id=None):
     global tasks
+
+    # if ID is provided then remove that task
     if(type(id)==int):
         tasks.pop(id)
+
+    # else, remove the last task
     else:
         tasks.pop()
+
+    # write task data
     data_manupulation.write()
 
+# modify task
 def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
     global tasks
+
     # if no ID is passed then pick the last task
     if(type(id) != int):
         id=len(tasks)-1
+
     # modify name
     if(name):
         tasks[id]['name'] = name
+
     # modify duration
     if(duration):
         tasks[id]['duration'] = duration
+
     # modify task start time
     if(type(start_at)==int):
         tasks[id]['start_at'] = start_at
+
     # modify ID
     if(type(new_id)==int):
         task = tasks[id]
@@ -69,10 +90,12 @@ def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
         tasks.insert(new_id, task)
     data_manupulation.write()
 
+# display tasks
 def display(tasks, id=None):
-    # load up theme
+    # load theme
     theme = theme_manupulation.load()
-    # if ID is provided, return task with that ID
+
+    # if ID is provided, print that task
     if(type(id)==int):
         if(id<len(tasks)):
             print(tasks[id])
@@ -94,16 +117,20 @@ def display(tasks, id=None):
                 length = max(max(len(str(tasks[i][attr])) for i in range(len(tasks))), 8)
             lengths.append(length)
         return(lengths)
+
     lengths = get_attr_lengths()
 
+    # header printing functino
     def print_header(name, l):
         print(theme['highlight']['header'], end='')
         print(f"{name:{l}}", end='')
         print(theme['escape'], end=' ')
 
+    # attribute printing function
     def print_attr(attr, l):
         print(f"{str(attr):{l}}", end=' ')
 
+    # print headers
     for attr, i in zip(['ID', 'Time', 'Name', 'Duration', 'Skip', 'Done'], lengths):
         print_header(attr, i)
     print()
@@ -111,35 +138,44 @@ def display(tasks, id=None):
     # new task that is neither done nor marked to skip
     next_undone = get_first({'done':False, 'skip': False})
 
-    keys = ['name', 'duration', 'skip', 'done']
+    # for code reuse
+    keys = ['skip', 'done']
+
     for i in range(len(tasks)):
         # if task has start time
         if('start_at' in tasks[i]):
             time = tasks[i]['start_at']
 
         # print highlighting
-        if(tasks[i]['done']):
+        if(tasks[i]['done']): # done task
             print(theme['highlight']['done'], end='')
-        elif(tasks[i]['skip']):
+        elif(tasks[i]['skip']): # skipped task
             print(theme['highlight']['skip'], end='')
         else:
-            if(i == next_undone):
+            if(i == next_undone): # next task to do
                 print(theme['highlight']['next']['col'], end='')
-            else:
+            else: # undone task
                 if(i%2==0):
                     print(theme['highlight']['undone']['even'], end='')
                 else:
                     print(theme['highlight']['undone']['odd'], end='')
 
-        # print task attributes
+        # print ID
         print_attr(i, lengths[0])
+
+        # print time
         print_attr(time_formatting.to_time(time), lengths[1])
 
+        # print name
+        print_attr(tasks[i]['name'], lengths[2])
+
+        # print duration
+        print_attr(time_formatting.to_time(tasks[i]['duration']), lengths[3])
+
+        # print other attributes
         for j, key in enumerate(keys):
             value = tasks[i][key]
-            if(key=='duration'):
-                value = time_formatting.to_time(value)
-            print_attr(value, lengths[j+2])
+            print_attr(value, lengths[j+4])
 
         # increase time
         time += tasks[i]['duration']
@@ -152,74 +188,96 @@ def display(tasks, id=None):
     print(f"{theme['highlight']['skip']}-> {time_formatting.to_time(time)}{theme['escape']}") 
     return(True)
 
+# display today
 def display_today(id=None):
     display(tasks=tasks, id=id)
 
+# display yesterday
 def display_yesterday(id=None):
     try:
         with open(paths.yesterday_path, 'r') as data:
             yesterday = json.load(data)
             display(tasks=yesterday, id=id)
+
     except FileNotFoundError:
         print("There is no Data file for Yesterday's tasks. Yesterday's data file is only generated when newday function is called.")
 
 
 
+# mark a task as done
 def task_do(id):
+    # get first undone task if ID is not provided
     if(type(id) != int):
         id = get_first({'done': False, 'skip':False})
         if(type(id) != int):
             print("All Tasks are already done")
             return(False)
 
-    if(id>=len(tasks)):
-        raise ValueError(f"No Task with the \033[91mID {id}\33[0m exists.")
+    # if task is already done
     if(tasks[id]['done']):
         print(f"Task {id}: {tasks[id]['name']} was already done.")
+
+    # else, mark task as done
     else:
         tasks[id]['done'] = True
-        data_manupulation.write()
         print(f"\033[91mTask {id}\033[0m: \33[33m{tasks[id]['name']}\033[0m done.")
 
+        # write data
+        data_manupulation.write()
+
+# mark a task as undone
 def task_undo(id=None):
+    # get first done task if ID is not provided
     if(type(id) != int):
         id = get_first({'done': True, 'skip':False}, -1)
         if(type(id) != int):
             print("All Tasks are already undone")
             return(False)
 
-    if(id>=len(tasks)):
-        raise ValueError(f"No Task with the ID {id} exists.")
+    # if task is already marked undone
     if(not(tasks[id]['done'])):
         print(f"Task {id}: {tasks[id]['name']} was not marked done.")
+
+    # else, mark undone the task
     else:
         tasks[id]['done'] = False
-        data_manupulation.write()
         print(f"\033[91mTask {id}\033[0m: \33[33m{tasks[id]['name']}\033[0m is marked undone.")
 
+        # write data
+        data_manupulation.write()
+
+# mark all tasks as done
 def task_do_all():
     for id in range(len(tasks)):
         tasks[id]['done'] = True
+
+    # write data
     data_manupulation.write()
 
+# mark all tasks as undone
 def task_undo_all():
     for id in range(len(tasks)):
         tasks[id]['done'] = False
+
+    # write data
     data_manupulation.write()
 
+# toggle skip of a task
 def task_toggle_skip(id=None):
+    # get the first undone task if no ID was provided
     if(type(id) != int):
         id = get_first({'done': False})
         if(type(id) != int):
             print("All Tasks are already done")
             return(False)
 
-    if(id>=len(tasks)):
-        raise ValueError(f"No Task with the \033[91mID {id}\33[0m exists.")
+    # toggle skip of task
     tasks[id]['skip'] = not tasks[id]['skip']
+
+    # write data
     data_manupulation.write()
 
-## Task Tool Functions
+# get first task that matches given key:value
 def get_first(d: dict, step=1):
     def check(i, key):
         return(tasks[i][key] == d[key])
@@ -229,13 +287,20 @@ def get_first(d: dict, step=1):
             return(i)
     return(False)
  
+# get the ID where a task will fit based on it's time
 def get_next(given_time):
+    # time when the day starts
     time = settings['time_start']
+
+    # get to the point when time is larger than given time, return that ID
     for i, task in enumerate(tasks):
         if 'start_at' in task:
-            time = task['start_at'] + task['duration']
-        else:
-            time += task['duration']
+            time = task['start_at']
+
+        time += task['duration']
+
         if(time > given_time):
             return(i)
+
+    # if we never reach that point, return length
     return(len(tasks))
