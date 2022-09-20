@@ -81,7 +81,14 @@ def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
 
     # modify task start time
     if(type(start_at)==int):
-        tasks[id]['start_at'] = start_at
+        # remove start time
+        if(start_at == -1):
+            tasks[id].pop('start_at', None)
+
+        # change start time
+        else:
+            new_id = get_next(start_at) # get the new ID now that start time is changed
+            tasks[id]['start_at'] = start_at
 
     # modify ID
     if(type(new_id)==int):
@@ -111,6 +118,7 @@ def display(tasks, id=None):
         lengths = []
         lengths.append(max(len(str(len(tasks))), 2))
         lengths.append(max(len(time_formatting.to_time(sum(tasks[i]['duration'] for i in range(len(tasks)))+time)), 4))
+
         for attr in ['name', 'duration', 'skip', 'done']:
             length = 8
             if(len(tasks)):
@@ -144,7 +152,8 @@ def display(tasks, id=None):
     for i in range(len(tasks)):
         # if task has start time
         if('start_at' in tasks[i]):
-            time = tasks[i]['start_at']
+            if(type(tasks[i]['start_at'])==int):
+                time = tasks[i]['start_at']
 
         # print highlighting
         if(tasks[i]['done']): # done task

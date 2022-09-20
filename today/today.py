@@ -97,7 +97,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_
 def main():
     # parse user arguments
     ## positional arguments
-    parser.add_argument('arguments', metavar='Arguments', nargs='*', help='Task ID [int], Name [str], Duration [int]')
+    parser.add_argument('arguments', metavar='Arguments', nargs='*', help='Task ID [int], Name [str], Duration [time]')
     ## positional requiring options
     parser.add_argument('-a', '--add', action='store_true', help='add/append a new Task [?ID][Name][Duration]')
     parser.add_argument('-d', '--done', action='store_true', help='mark a task as done [ID]')
@@ -124,7 +124,7 @@ def main():
     parser.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load from a file')
     parser.add_argument('-xx', metavar='[filename]', action='store', type=str, help='load from a file')
     parser.add_argument('-ls', action='store_true', help='list saved files')
-    parser.add_argument('-sa', metavar='[start at]', action='store', type=str, help='what time do you want a task to start')
+    parser.add_argument('-sa', metavar='[time]', action='store', type=str, help='what time do you want a task to start')
 
     ##
     args = parser.parse_args()
@@ -172,9 +172,12 @@ def main():
         a_duration = time_formatting.to_min(a_duration)
 
     # turn start_at duration into minutes
-    a_sa = None
-    if(args.sa):
-        a_sa = time_formatting.to_min(args.sa)
+    a_sa = args.sa 
+    if(a_sa):
+        if(a_sa == '-1'):
+            a_sa = -1
+        else:
+            a_sa = time_formatting.to_min(a_sa)
 
     # increment
     inc = args.i if args.i else 0
