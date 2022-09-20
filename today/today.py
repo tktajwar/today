@@ -13,7 +13,7 @@ from . import time_formatting
 parser = argparse.ArgumentParser('plan and execute your day in an organised way')
 
 # argument parsing function
-def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_times=1):
+def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_times=1, inc=0):
     # if the number of times left for this function to run is less than 1
     if(a_times < 1):
         return(False)
@@ -84,8 +84,12 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_
     else:
         task_manupulation.display_today(a_id)
 
-    # start next parser with times left decremented
-    parse_arguments(args, a_id, a_name, a_duration, a_sa, a_times=a_times-1)
+    # run again with ID incremented/decremented by increment amount and times decrmented by 1
+    if(type(a_id)==int):
+        a_id += inc
+    a_times -= 1
+    parse_arguments(args, a_id, a_name, a_duration, a_sa, a_times=a_times, inc=inc)
+
     return(True)
 
 
@@ -114,7 +118,8 @@ def main():
     parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
     ## 
     parser.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify task with new name and duration')
-    parser.add_argument('-t', metavar='[times]', action='store', type=int, help='how many times you want to do this action')
+    parser.add_argument('-t', metavar='[int]', action='store', type=int, help='(recursion) do it this number of times')
+    parser.add_argument('-i', metavar='[int]', action='store', type=int, help='increment ID by this at the end of each recursion')
     parser.add_argument('-xs', metavar='[filename]', action='store', type=str, help='save to a file')
     parser.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load from a file')
     parser.add_argument('-xx', metavar='[filename]', action='store', type=str, help='load from a file')
@@ -165,12 +170,16 @@ def main():
     # turn duration into minutes
     if(a_duration):
         a_duration = time_formatting.to_min(a_duration)
+
     # turn start_at duration into minutes
     a_sa = None
     if(args.sa):
         a_sa = time_formatting.to_min(args.sa)
 
-    parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_sa=a_sa, a_times=a_times)
+    # increment
+    inc = args.i if args.i else 0
+
+    parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_sa=a_sa, a_times=a_times, inc=inc)
 
     
 if __name__ == "__main__":
