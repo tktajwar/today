@@ -123,8 +123,8 @@ def main():
     args_extra.add_argument('-sa', metavar='[time]', action='store', type=str, help='what time do you want a task to start')
 
     ##  recursion arguments
-    args_recursion.add_argument('-t', metavar='[int]', action='store', type=int, help='(recursion) do it this number of times')
-    args_recursion.add_argument('-i', metavar='[int]', action='store', type=int, help='increment ID by this at the end of each recursion')
+    args_recursion.add_argument('-t', metavar='[int]', action='store', type=int, help='do it this number of times')
+    args_recursion.add_argument('-inc', action='store_true', help='increment ID by 1 at the end of each recursion')
 
     ## settings manupulation arguments
     args_settings.add_argument('-c', '--settings', action='store_true', help='configure settings data')
@@ -195,7 +195,7 @@ def main():
             a_sa = time_formatting.to_min(a_sa)
 
     # increment
-    inc = args.i if args.i else 0
+    inc = 1 if args.inc else 0
 
     parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_sa=a_sa, a_times=a_times, inc=inc)
 
