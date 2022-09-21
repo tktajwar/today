@@ -8,10 +8,6 @@ from . import settings_manupulation
 from . import notes
 from . import time_formatting
 
-# variables and parsing arguments
-## parser
-parser = argparse.ArgumentParser('plan and execute your day in an organised way')
-
 # argument parsing function
 def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_times=1, inc=0):
     # if the number of times left for this function to run is less than 1
@@ -96,35 +92,54 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_sa=None, a_
 # main
 def main():
     # parse user arguments
+    parser = argparse.ArgumentParser("plan and execute your day in an organised way")
+
+    ## argument groups
+    args_task = parser.add_argument_group("Task and Data")
+    args_extra = parser.add_argument_group("Extra")
+    args_recursion = parser.add_argument_group("Recursion")
+    args_settings = parser.add_argument_group("Settings")
+    args_note = parser.add_argument_group("Notes")
+    args_file = parser.add_argument_group("File")
+
     ## positional arguments
     parser.add_argument('arguments', metavar='Arguments', nargs='*', help='Task ID [int], Name [str], Duration [time]')
-    ## positional requiring options
-    parser.add_argument('-a', '--add', action='store_true', help='add/append a new Task [?ID][Name][Duration]')
-    parser.add_argument('-d', '--done', action='store_true', help='mark a task as done [ID]')
-    parser.add_argument('-u', '--undo', action='store_true', help='mark a task as undone [ID]')
-    parser.add_argument('-r', '--remove', action='store_true', help='remove Task [ID]')
-    parser.add_argument('-s', '--skip', action='store_true', help='toggle Skip of Task [ID]')
-    ## non positional requiring options
-    parser.add_argument('-da', '--done-all', action='store_true', help='mark all tasks as done')
-    parser.add_argument('-ua', '--undo-all', action='store_true', help='mark all tasks as undone')
-    parser.add_argument('-p', '--purge', action='store_true', help='purge Task Data')
-    parser.add_argument('-v', '--retrieve', action='store_true', help='retrieve from Purged Task Data')
-    parser.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a new Day')
-    parser.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterday\'s Data')
-    parser.add_argument('-c', '--settings', action='store_true', help='configure settings data')
-    parser.add_argument('-ct', '--change-theme', action='store_true', help='change theme')
-    parser.add_argument('-g', '--read-notes', action='store_true', help='show notes')
-    parser.add_argument('-w', '--add-note', action='store_true', help='add a new note')
-    parser.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
-    ## 
-    parser.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify task with new name and duration')
-    parser.add_argument('-t', metavar='[int]', action='store', type=int, help='(recursion) do it this number of times')
-    parser.add_argument('-i', metavar='[int]', action='store', type=int, help='increment ID by this at the end of each recursion')
-    parser.add_argument('-xs', metavar='[filename]', action='store', type=str, help='save to a file')
-    parser.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load from a file')
-    parser.add_argument('-xx', metavar='[filename]', action='store', type=str, help='load from a file')
-    parser.add_argument('-ls', action='store_true', help='list saved files')
-    parser.add_argument('-sa', metavar='[time]', action='store', type=str, help='what time do you want a task to start')
+
+    ## task manupulation arguments
+    args_task.add_argument('-a', '--add', action='store_true', help='add/append a new Task [?ID][Name][Duration]')
+    args_task.add_argument('-d', '--done', action='store_true', help='mark a task as done [ID]')
+    args_task.add_argument('-u', '--undo', action='store_true', help='mark a task as undone [ID]')
+    args_task.add_argument('-r', '--remove', action='store_true', help='remove Task [ID]')
+    args_task.add_argument('-s', '--skip', action='store_true', help='toggle Skip of Task [ID]')
+    args_task.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify task with new name and duration')
+    args_task.add_argument('-da', '--done-all', action='store_true', help='mark all tasks as done')
+    args_task.add_argument('-ua', '--undo-all', action='store_true', help='mark all tasks as undone')
+    args_task.add_argument('-p', '--purge', action='store_true', help='purge Task Data')
+    args_task.add_argument('-v', '--retrieve', action='store_true', help='retrieve from Purged Task Data')
+    args_task.add_argument('-n', '--new-day', action='store_true', help='store current Task Data as Yesterday and start a new Day')
+    args_task.add_argument('-y', '--yesterday', action='store_true', help='Show Yesterday\'s Data')
+
+    ## extra info arguments
+    args_extra.add_argument('-sa', metavar='[time]', action='store', type=str, help='what time do you want a task to start')
+
+    ##  recursion arguments
+    args_recursion.add_argument('-t', metavar='[int]', action='store', type=int, help='(recursion) do it this number of times')
+    args_recursion.add_argument('-i', metavar='[int]', action='store', type=int, help='increment ID by this at the end of each recursion')
+
+    ## settings manupulation arguments
+    args_settings.add_argument('-c', '--settings', action='store_true', help='configure settings data')
+    args_settings.add_argument('-ct', '--change-theme', action='store_true', help='change theme')
+
+    ## notes manupulation arguments
+    args_note.add_argument('-g', '--read-notes', action='store_true', help='show notes')
+    args_note.add_argument('-w', '--add-note', action='store_true', help='add a new note')
+    args_note.add_argument('-x', '--remove-note', action='store_true', help='delete a note')
+
+    ## file management arguments
+    args_file.add_argument('-xs', metavar='[filename]', action='store', type=str, help='save to a file')
+    args_file.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load from a file')
+    args_file.add_argument('-xx', metavar='[filename]', action='store', type=str, help='load from a file')
+    args_file.add_argument('-ls', action='store_true', help='list saved files')
 
     ##
     args = parser.parse_args()
