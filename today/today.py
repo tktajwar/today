@@ -44,7 +44,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
     elif(args.v):
         data_manupulation.retrieve()
     # data newday
-    elif(args.aa):
+    elif(args.sn):
         data_manupulation.newday()
     # data yesterday
     elif(args.ys):
