@@ -6,6 +6,8 @@
 
 ![screenshot_2](screenshots/screenshot_2.png)
 
+Screenshots taken on Gnome Terminal.
+
 # Getting Started
 
 **today** is a day planner program written in *Python 3*. The intention of developing this program was to help people plan the tasks they are going take today with the amount of time they are planning to spend on them. This Command Line application will help you have a realistic idea of what you can do today and stay focused on your day plan throughout the day.
