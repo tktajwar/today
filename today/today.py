@@ -29,7 +29,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
     elif(args.s):
         task_manupulation.task_toggle_skip(a_id)
     # task modify
-    elif(args.m):
+    elif(type(args.m)==int):
         task_manupulation.task_modify(args.m, a_id, a_name, a_duration, a_st)
     # task done all
     elif(args.D):
