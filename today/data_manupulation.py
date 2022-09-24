@@ -71,7 +71,7 @@ def load(filename='default'):
     global tasks
     try:
         with open(join(paths.save_path, filename), 'r') as data:
-            save(filename='last_unsaved') # save the current task data in a file
+            save(filename='_') # backup current task data
             tasks = json.load(data)
             write()
     except FileNotFoundError:
