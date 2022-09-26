@@ -152,42 +152,42 @@ def main():
 
     ## task manupulation arguments
     args_task_excl.add_argument('-a', action='store_true', help='add/append a new Task [ID][Name][Duration]')
-    args_task_excl.add_argument('-d', action='store_true', help='mark a task as done [ID]')
-    args_task_excl.add_argument('-u', action='store_true', help='mark a task as undone [ID]')
-    args_task_excl.add_argument('-r', action='store_true', help='remove Task [ID]')
-    args_task_excl.add_argument('-s', action='store_true', help='skip task [ID]')
-    args_task_excl.add_argument('-us', action='store_true', help='unskip Task [ID]')
-    args_task_excl.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify task with new arguments')
-    args_task_excl.add_argument('-D', action='store_true', help='mark all tasks as done')
-    args_task_excl.add_argument('-U', action='store_true', help='mark all tasks as undone')
+    args_task_excl.add_argument('-d', action='store_true', help='mark done [ID]')
+    args_task_excl.add_argument('-u', action='store_true', help='mark undone [ID]')
+    args_task_excl.add_argument('-r', action='store_true', help='remove [ID]')
+    args_task_excl.add_argument('-s', action='store_true', help='skip [ID]')
+    args_task_excl.add_argument('-us', action='store_true', help='unskip [ID]')
+    args_task_excl.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify [ID] [Name] [Duration]')
+    args_task_excl.add_argument('-D', action='store_true', help='mark all tasks done')
+    args_task_excl.add_argument('-U', action='store_true', help='mark all tasks undone')
 
     ## advanced data manupulation arguments
     args_data_excl.add_argument('-p', action='store_true', help='purge Task Data')
     args_data_excl.add_argument('-v', action='store_true', help='retrieve from Purged Task Data')
     args_data_excl.add_argument('-sn', action='store_true', help='stat a new day')
-    args_data_excl.add_argument('-ys', action='store_true', help='Show Yesterday\'s Data')
+    args_data_excl.add_argument('-ys', action='store_true', help='show yesterday')
 
     ## extra info arguments
-    args_extra.add_argument('-st', metavar='[time]', action='store', type=str, help='what time do you want a task to start')
+    args_extra.add_argument('-st', metavar='[time]', action='store', type=str, help='Task start time')
 
     ##  recursion arguments
     args_recursion.add_argument('-t', metavar='[int]', action='store', type=int, help='do it this number of times')
-    args_recursion.add_argument('-inc', action='store_true', help='increment ID by 1 at the end of each recursion')
+    args_recursion.add_argument('-inc', action='store_true', help='increment ID by 1 after each time')
 
     ## settings manupulation arguments
-    args_settings_excl.add_argument('-c', action='store_true', help='configure settings data')
+    args_settings_excl.add_argument('-c', action='store_true', help='configure settings')
     args_settings_excl.add_argument('-ct', action='store_true', help='change theme')
 
     ## notes manupulation arguments
     args_note_excl.add_argument('-ns', action='store_true', help='show notes')
-    args_note_excl.add_argument('-na', action='store_true', help='add a new note')
-    args_note_excl.add_argument('-nx', action='store_true', help='delete a note [ID]')
+    args_note_excl.add_argument('-na', action='store_true', help='add note')
+    args_note_excl.add_argument('-nx', action='store_true', help='delete note [ID]')
 
     ## file management arguments
-    args_file_excl.add_argument('-xs', metavar='[filename]', action='store', type=str, help='save to a file')
-    args_file_excl.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load from a file')
-    args_file_excl.add_argument('-xx', metavar='[filename]', action='store', type=str, help='delete a file')
-    args_file_excl.add_argument('-ls', action='store_true', help='list saved files')
+    args_file_excl.add_argument('-xs', metavar='[filename]', action='store', type=str, help='save')
+    args_file_excl.add_argument('-xl', metavar='[filename]', action='store', type=str, help='load')
+    args_file_excl.add_argument('-xx', metavar='[filename]', action='store', type=str, help='delete')
+    args_file_excl.add_argument('-ls', action='store_true', help='list files')
 
     ##
     args = parser.parse_args()
