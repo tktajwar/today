@@ -310,23 +310,45 @@ def task_undo_all():
     # write data
     data_manupulation.write()
 
-def task_toggle_skip(id=None):
+def task_skip(id=None):
     '''
-    toggle skip of a task
+    mark skip of a task
     '''
 
-    # get the first undone task if no ID was provided
+    # get the next undone task
     if(type(id) != int):
-        id = get_first({'done': False})
+        id = get_first({'done': False, 'skip': False})
         if(type(id) != int):
             print("All Tasks are already done")
             return(False)
 
     # toggle skip of task
-    tasks[id]['skip'] = not tasks[id]['skip']
+    tasks[id]['skip'] = True
 
     # write data
     data_manupulation.write()
+
+    return(True)
+    
+def task_unskip(id=None):
+    '''
+    unmark skip of a task
+    '''
+
+    # get the last skipped task
+    if(type(id) != int):
+        id = get_first({'skip': True}, -1)
+        if(type(id) != int):
+            print("No tasks are skipped")
+            return(False)
+
+    # toggle skip of task
+    tasks[id]['skip'] = False
+
+    # write data
+    data_manupulation.write()
+
+    return(True)
 
 def get_first(d: dict, step=1):
     '''

@@ -35,7 +35,11 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
 
     # task skip
     elif(args.s):
-        task_manupulation.task_toggle_skip(a_id)
+        task_manupulation.task_skip(a_id)
+
+    # task unskip
+    elif(args.us):
+        task_manupulation.task_unskip(a_id)
 
     # task modify
     elif(type(args.m)==int):
@@ -147,11 +151,12 @@ def main():
     parser.add_argument('arguments', metavar='ID Name Duration', nargs='*', help='[int] [str] [time]')
 
     ## task manupulation arguments
-    args_task_excl.add_argument('-a', action='store_true', help='add/append a new Task [?ID][Name][Duration]')
+    args_task_excl.add_argument('-a', action='store_true', help='add/append a new Task [ID][Name][Duration]')
     args_task_excl.add_argument('-d', action='store_true', help='mark a task as done [ID]')
     args_task_excl.add_argument('-u', action='store_true', help='mark a task as undone [ID]')
     args_task_excl.add_argument('-r', action='store_true', help='remove Task [ID]')
-    args_task_excl.add_argument('-s', action='store_true', help='toggle skip of a Task [ID]')
+    args_task_excl.add_argument('-s', action='store_true', help='skip task [ID]')
+    args_task_excl.add_argument('-us', action='store_true', help='unskip Task [ID]')
     args_task_excl.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify task with new arguments')
     args_task_excl.add_argument('-D', action='store_true', help='mark all tasks as done')
     args_task_excl.add_argument('-U', action='store_true', help='mark all tasks as undone')
