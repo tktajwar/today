@@ -24,8 +24,11 @@ dir_path = os.path.dirname(__file__)
 # source of themes
 themes_source = os.path.join(dir_path, 'themes')
 
-# create necessary directories if they do not exist
 def check_and_create():
+    '''
+    create necessary directories if they do not exist
+    '''
+
     # root directory
     if(not(os.path.exists(path))):
         print(f"creating directory: {path}")

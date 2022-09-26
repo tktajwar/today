@@ -8,74 +8,99 @@ from . import settings_manupulation
 from . import notes
 from . import time_formatting
 
-# argument parsing function
 def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_times=1, inc=0):
+    '''
+    argument parsing function
+    '''
+
     # if the number of times left for this function to run is less than 1
     if(a_times < 1):
         return(False)
+
     # task add
     if(args.a):
         task_manupulation.create(a_id, a_name, a_duration, start_at=a_st)
+
     # task done
     elif(args.d):
         task_manupulation.task_do(a_id)
+
     # task undo
     elif(args.u):
         task_manupulation.task_undo(a_id)
+
     # task remove
     elif(args.r):
         task_manupulation.task_remove(a_id)
+
     # task skip
     elif(args.s):
         task_manupulation.task_toggle_skip(a_id)
+
     # task modify
     elif(type(args.m)==int):
         task_manupulation.task_modify(args.m, a_id, a_name, a_duration, a_st)
+
     # task done all
     elif(args.D):
         task_manupulation.task_do_all()
+
     # task undo all
     elif(args.U):
         task_manupulation.task_undo_all()
+
     # data purge
     elif(args.p):
         data_manupulation.purge()
+
     # data retrieve
     elif(args.v):
         data_manupulation.retrieve()
+
     # data newday
     elif(args.sn):
         data_manupulation.newday()
+
     # data yesterday
     elif(args.ys):
         task_manupulation.display_yesterday(a_id)
+
     # settings configure
     elif(args.c):
         settings_manupulation.change()
+
     # settings theme change
     elif(args.ct):
         settings_manupulation.change_theme()
+
     # notes show
     elif(args.ns):
         notes.show(a_id)
+
     # notes add
     elif(args.na):
         notes.add(a_name, a_id)
+
     # notes remove
     elif(args.nx):
         notes.remove(a_id)
+
     # data save file
     elif(args.xs):
         data_manupulation.save(args.xs)
+
     # dat load file
     elif(args.xl):
         data_manupulation.load(args.xl)
+
     # data delete file
     elif(args.xx):
         data_manupulation.delete(args.xx)
+
     # data list files
     elif(args.ls):
         data_manupulation.list()
+
     # task display
     else:
         task_manupulation.display_today(a_id)
@@ -91,6 +116,10 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
 
 # main
 def main():
+    '''
+    main function
+    '''
+
     # parse user arguments
     parser = argparse.ArgumentParser("a day planner")
 

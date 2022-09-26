@@ -6,8 +6,11 @@ from . import paths
 
 tasks = {}
 
-# start a new task data
 def newday():
+    '''
+    start a new task data
+    '''
+
     global tasks
 
     # save task data as yesterday's
@@ -18,8 +21,11 @@ def newday():
     tasks = []
     write()
 
-# purge task data
 def purge():
+    '''
+    purge task data
+    '''
+
     global tasks
 
     # sade task data as purged
@@ -30,8 +36,11 @@ def purge():
     tasks = []
     write()
 
-# retrieve purged data
 def retrieve():
+    '''
+    retrieve purged data
+    '''
+
     global tasks
 
     # open purged data and save as current task data
@@ -43,13 +52,19 @@ def retrieve():
     except FileNotFoundError:
         print("Therer is no Purged Data file. Purged Data file is only generated when purge function is called.")
 
-# write task dat
 def write():
+    '''
+    write task dat
+    '''
+
     with open(paths.data_path, 'w') as data:
         json.dump(tasks, data)
 
-# read task data
 def read():
+    '''
+    read task data
+    '''
+
     global tasks
     try:
         with open(paths.data_path, 'r') as data:
@@ -59,14 +74,20 @@ def read():
         tasks = []
         write()
 
-# save task data in a file
 def save(filename='default'):
+    '''
+    save task data in a file
+    '''
+
     filename = filename + '.json'
     with open(join(paths.save_path, filename), 'w') as data:
         json.dump(tasks, data)
 
-# load task data from a file
 def load(filename='default'):
+    '''
+    load task data from a file
+    '''
+
     filename = filename + '.json'
     global tasks
     try:
@@ -77,16 +98,22 @@ def load(filename='default'):
     except FileNotFoundError:
         print(f"No file saved with the name {filename}.")
 
-# delete a task file
 def delete(filename='default'):
+    '''
+    delete a task file
+    '''
+
     filename = filename + '.json'
     try:
         remove(join(paths.save_path, filename))
     except FileNotFoundError:
         print(f"No file saved with the name {filename}.")
 
-# list all the task files
 def list():
+    '''
+    list all the task files
+    '''
+
     for file in listdir(paths.save_path):
         print(file)
 

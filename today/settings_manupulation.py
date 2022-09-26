@@ -19,13 +19,19 @@ default_settings = {
 # settings file
 settings = {}
 
-# write settings data
 def write():
+    '''
+    write settings data
+    '''
+
     with open(paths.settings_path, 'w') as data:
         json.dump(settings, data) 
 
-# read settings data
 def read():
+    '''
+    read settings data
+    '''
+
     global settings
 
     # read settings file
@@ -40,8 +46,11 @@ def read():
         settings = default_settings
         write()
 
-# updates settings (add attributes that is unavailable in currents settings)
 def update():
+    '''
+    updates settings (add attributes that is unavailable in currents settings)
+    '''
+
     global settings
 
     # check if each items in default settings exists in settings and add missing items
@@ -56,13 +65,19 @@ def update():
             write()
             print(f"Settings were updated, new key(s) added: {updated}")
 
-# change settings data
 def change():
+    '''
+    change settings data
+    '''
+
     global settings
     theme = theme_manupulation.load()
 
-    # function for each keys to change
     def change_key(key, h, d=settings, func=None):
+        '''
+    # function for each keys to change
+    '''
+
         # highlight name of the key
         print(f"{theme['highlight']['id']}{key}{theme['escape']}")
 
@@ -95,15 +110,21 @@ def change():
     # write settings
     write()
 
-# change theme
 def change_theme():
+    '''
+    change theme
+    '''
+
     global settings
 
     # load theme
     theme = theme_manupulation.load()
 
-    # theme name -= '.json'
     def theme_name(t):
+        '''
+    # theme name -= '.json'
+    '''
+
         return(t[:-5])
 
     # show help

@@ -5,8 +5,11 @@ from . import theme_manupulation
 
 notes_path = paths.notes_path
 
-# show notes
 def show(id=None):
+    '''
+    show notes
+    '''
+
     notes = read() # load notes
     theme = theme_manupulation.load() # load theme
 
@@ -20,13 +23,19 @@ def show(id=None):
         print(f"{theme['highlight']['id']}{i}{theme['escape']}: {notes[i]}")
     return(True)
 
-# read note file
 def write(notes):
+    '''
+    read note file
+    '''
+
     with open(notes_path, 'w') as data:
         json.dump(notes, data)
 
-# read note file
 def read():
+    '''
+    read note file
+    '''
+
     notes=[]
 
     try:
@@ -39,8 +48,11 @@ def read():
         return([])
     return(notes)
 
-# add a new note
 def add(note, id=None):
+    '''
+    add a new note
+    '''
+
     notes = read()
 
     if(type(id)==int):
@@ -50,8 +62,11 @@ def add(note, id=None):
         notes.append(note)
     write(notes)
 
-# remove a note
 def remove(id=None):
+    '''
+    remove a note
+    '''
+
     notes = read()
 
     if(type(id)==int):

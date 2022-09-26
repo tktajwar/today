@@ -1,14 +1,20 @@
 import re
 
-# format minutes to H:m
 def to_time(m):
+    '''
+    format minutes to H:m
+    '''
+
     hour = m//60%24
     minute = m%60
     t = f"{hour:>2}:{minute:0>2}"
     return(t)
 
-# turn string to minutes
 def to_min(duration):
+    '''
+    turn string to minutes
+    '''
+
     # INT (minutes)
     if(duration.isnumeric()):
         return(int(duration))
@@ -31,8 +37,11 @@ def to_min(duration):
     else: # minutes
         return(int(m.group(1)))
 
-# check if string is duration
 def is_duration(s):
+    '''
+    check if string is duration
+    '''
+
     # hour:minute
     if(':' in s):
         return(True)

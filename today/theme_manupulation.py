@@ -8,15 +8,21 @@ from . import settings_manupulation
 # get settings data
 settings = settings_manupulation.settings
 
-# load theme
 def load():
+    '''
+    load theme
+    '''
+
     update()
     with open(os.path.join(paths.themes_path, settings['theme'] + '.json'), 'r') as data:
             theme = json.load(data)
     return(theme)
 
-# add themes from source that are not in themes directory
 def update():
+    '''
+    add themes from source that are not in themes directory
+    '''
+
     # list of all the themes directory
     themes_ls = os.listdir(paths.themes_path)
 
@@ -26,8 +32,11 @@ def update():
             copyfile(os.path.join(paths.themes_source, theme), os.path.join(paths.themes_path, theme))
             print(f"Copied theme {theme} to {paths.themes_path}")
 
-# create a new theme
 def create():
+    '''
+    create a new theme
+    '''
+
     # name of theme file
     name = 'matrix'
 

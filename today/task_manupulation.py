@@ -12,8 +12,11 @@ settings = settings_manupulation.settings
 # get tasks data
 tasks = data_manupulation.tasks
 
-# create a new task
 def create(id=None, name=None, duration=None, skip=False, done=False, start_at=None):
+    '''
+    # create a new task
+    '''
+
     global tasks
     
     # use default values if arguments are not provided
@@ -48,8 +51,11 @@ def create(id=None, name=None, duration=None, skip=False, done=False, start_at=N
     data_manupulation.write()
     return(True)
 
-# remove task
 def task_remove(id=None):
+    '''
+    remove task
+    '''
+
     global tasks
 
     # if ID is provided then remove that task
@@ -63,8 +69,11 @@ def task_remove(id=None):
     # write task data
     data_manupulation.write()
 
-# modify task
 def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
+    '''
+    modify task
+    '''
+
     global tasks
 
     # if no ID is passed then pick the last task
@@ -97,8 +106,11 @@ def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
         tasks.insert(new_id, task)
     data_manupulation.write()
 
-# display tasks
 def display(tasks, id=None):
+    '''
+    display tasks
+    '''
+
     # load theme
     theme = theme_manupulation.load()
 
@@ -113,8 +125,11 @@ def display(tasks, id=None):
     # time passed's initial value is the time user set for when their day start
     time = settings['time_start']
 
-    # get max lenghts of each attributes for padding
     def get_attr_lengths():
+        '''
+    # get max lenghts of each attributes for padding
+    '''
+
         lengths = []
         lengths.append(max(len(str(len(tasks))), 2))
         lengths.append(max(len(time_formatting.to_time(sum(tasks[i]['duration'] for i in range(len(tasks)))+time)), 4))
@@ -128,14 +143,20 @@ def display(tasks, id=None):
 
     lengths = get_attr_lengths()
 
-    # header printing functino
     def print_header(name, l):
+        '''
+    # header printing functino
+    '''
+
         print(theme['highlight']['header'], end='')
         print(f"{name:{l}}", end='')
         print(theme['escape'], end=' ')
 
-    # attribute printing function
     def print_attr(attr, l):
+        '''
+    # attribute printing function
+    '''
+
         print(f"{str(attr):{l}}", end=' ')
 
     # print headers
@@ -197,12 +218,18 @@ def display(tasks, id=None):
     print(f"{theme['highlight']['skip']}-> {time_formatting.to_time(time)}{theme['escape']}") 
     return(True)
 
-# display today
 def display_today(id=None):
+    '''
+    display today
+    '''
+
     display(tasks=tasks, id=id)
 
-# display yesterday
 def display_yesterday(id=None):
+    '''
+    display yesterday
+    '''
+
     try:
         with open(paths.yesterday_path, 'r') as data:
             yesterday = json.load(data)
@@ -213,8 +240,11 @@ def display_yesterday(id=None):
 
 
 
-# mark a task as done
 def task_do(id):
+    '''
+    mark a task as done
+    '''
+
     # get first undone task if ID is not provided
     if(type(id) != int):
         id = get_first({'done': False, 'skip':False})
@@ -234,8 +264,11 @@ def task_do(id):
         # write data
         data_manupulation.write()
 
-# mark a task as undone
 def task_undo(id=None):
+    '''
+    mark a task as undone
+    '''
+
     # get first done task if ID is not provided
     if(type(id) != int):
         id = get_first({'done': True, 'skip':False}, -1)
@@ -255,24 +288,33 @@ def task_undo(id=None):
         # write data
         data_manupulation.write()
 
-# mark all tasks as done
 def task_do_all():
+    '''
+    mark all tasks as done
+    '''
+
     for id in range(len(tasks)):
         tasks[id]['done'] = True
 
     # write data
     data_manupulation.write()
 
-# mark all tasks as undone
 def task_undo_all():
+    '''
+    mark all tasks as undone
+    '''
+
     for id in range(len(tasks)):
         tasks[id]['done'] = False
 
     # write data
     data_manupulation.write()
 
-# toggle skip of a task
 def task_toggle_skip(id=None):
+    '''
+    toggle skip of a task
+    '''
+
     # get the first undone task if no ID was provided
     if(type(id) != int):
         id = get_first({'done': False})
@@ -286,8 +328,11 @@ def task_toggle_skip(id=None):
     # write data
     data_manupulation.write()
 
-# get first task that matches given key:value
 def get_first(d: dict, step=1):
+    '''
+    get first task that matches given key:value
+    '''
+
     def check(i, key):
         return(tasks[i][key] == d[key])
     for i in range(len(tasks))[::step]:
@@ -296,8 +341,11 @@ def get_first(d: dict, step=1):
             return(i)
     return(False)
  
-# get the ID where a task will fit based on it's time
 def get_next(given_time):
+    '''
+    get the ID where a task will fit based on it's time
+    '''
+
     # time when the day starts
     time = settings['time_start']
 
