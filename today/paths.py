@@ -17,6 +17,7 @@ settings_path = os.path.join(path, "settings.json")
 purged_path = os.path.join(path, "purged.json")
 yesterday_path = os.path.join(path, "yesterday.json")
 notes_path = os.path.join(path, 'notes.json')
+todo_path = os.path.join(path, 'todo.json')
 
 # where the app is stored/installed
 dir_path = os.path.dirname(__file__)

@@ -5,6 +5,7 @@ from . import data_manupulation
 from . import paths
 from . import settings_manupulation
 from . import time_formatting
+from . import todo
 
 # get settings data
 settings = settings_manupulation.settings
@@ -14,7 +15,7 @@ tasks = data_manupulation.tasks
 
 def create(id=None, name=None, duration=None, skip=False, done=False, start_at=None):
     '''
-    # create a new task
+    create a new task
     '''
 
     global tasks
@@ -216,6 +217,13 @@ def display(tasks, id=None):
 
     # the time last task ends
     print(f"{theme['highlight']['skip']}-> {time_formatting.to_time(time)}{theme['escape']}") 
+
+
+    # display todo list
+    todo.read()
+    print(f"{theme['highlight']['header']}Todo{theme['escape']}")
+    for i, task in enumerate(todo.todo):
+        print(f"{i}: {task['name']} {task['duration']}")
     return(True)
 
 def display_today(id=None):
