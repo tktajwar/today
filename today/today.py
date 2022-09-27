@@ -12,108 +12,104 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
     '''
     argument parsing function
     '''
+    init_id = a_id
 
-    # if the number of times left for this function to run is less than 1
-    if(a_times < 1):
-        return(False)
+    for i in range(a_times):
+        # make ID = intial ID + increment value * (iteration number-1)
+        if(type(a_id)==int):
+            a_id = init_id + inc*i
 
-    # task add
-    if(args.a):
-        task_manupulation.create(a_id, a_name, a_duration, start_at=a_st)
+        # task add
+        if(args.a):
+            task_manupulation.create(a_id, a_name, a_duration, start_at=a_st)
 
-    # task done
-    elif(args.d):
-        task_manupulation.task_do(a_id)
+        # task done
+        elif(args.d):
+            task_manupulation.task_do(a_id)
 
-    # task undo
-    elif(args.u):
-        task_manupulation.task_undo(a_id)
+        # task undo
+        elif(args.u):
+            task_manupulation.task_undo(a_id)
 
-    # task remove
-    elif(args.r):
-        task_manupulation.task_remove(a_id)
+        # task remove
+        elif(args.r):
+            task_manupulation.task_remove(a_id)
 
-    # task skip
-    elif(args.s):
-        task_manupulation.task_skip(a_id)
+        # task skip
+        elif(args.s):
+            task_manupulation.task_skip(a_id)
 
-    # task unskip
-    elif(args.us):
-        task_manupulation.task_unskip(a_id)
+        # task unskip
+        elif(args.us):
+            task_manupulation.task_unskip(a_id)
 
-    # task modify
-    elif(type(args.m)==int):
-        task_manupulation.task_modify(args.m, a_id, a_name, a_duration, a_st)
+        # task modify
+        elif(type(args.m)==int):
+            task_manupulation.task_modify(args.m, a_id, a_name, a_duration, a_st)
 
-    # task done all
-    elif(args.D):
-        task_manupulation.task_do_all()
+        # task done all
+        elif(args.D):
+            task_manupulation.task_do_all()
 
-    # task undo all
-    elif(args.U):
-        task_manupulation.task_undo_all()
+        # task undo all
+        elif(args.U):
+            task_manupulation.task_undo_all()
 
-    # data purge
-    elif(args.p):
-        data_manupulation.purge()
+        # data purge
+        elif(args.p):
+            data_manupulation.purge()
 
-    # data retrieve
-    elif(args.v):
-        data_manupulation.retrieve()
+        # data retrieve
+        elif(args.v):
+            data_manupulation.retrieve()
 
-    # data newday
-    elif(args.sn):
-        data_manupulation.newday()
+        # data newday
+        elif(args.sn):
+            data_manupulation.newday()
 
-    # data yesterday
-    elif(args.ys):
-        task_manupulation.display_yesterday(a_id)
+        # data yesterday
+        elif(args.ys):
+            task_manupulation.display_yesterday(a_id)
 
-    # settings configure
-    elif(args.c):
-        settings_manupulation.change()
+        # settings configure
+        elif(args.c):
+            settings_manupulation.change()
 
-    # settings theme change
-    elif(args.ct):
-        settings_manupulation.change_theme()
+        # settings theme change
+        elif(args.ct):
+            settings_manupulation.change_theme()
 
-    # notes show
-    elif(args.ns):
-        notes.show(a_id)
+        # notes show
+        elif(args.ns):
+            notes.show(a_id)
 
-    # notes add
-    elif(args.na):
-        notes.add(a_name, a_id)
+        # notes add
+        elif(args.na):
+            notes.add(a_name, a_id)
 
-    # notes remove
-    elif(args.nx):
-        notes.remove(a_id)
+        # notes remove
+        elif(args.nx):
+            notes.remove(a_id)
 
-    # data save file
-    elif(args.xs):
-        data_manupulation.save(args.xs)
+        # data save file
+        elif(args.xs):
+            data_manupulation.save(args.xs)
 
-    # dat load file
-    elif(args.xl):
-        data_manupulation.load(args.xl)
+        # dat load file
+        elif(args.xl):
+            data_manupulation.load(args.xl)
 
-    # data delete file
-    elif(args.xx):
-        data_manupulation.delete(args.xx)
+        # data delete file
+        elif(args.xx):
+            data_manupulation.delete(args.xx)
 
-    # data list files
-    elif(args.ls):
-        data_manupulation.list()
+        # data list files
+        elif(args.ls):
+            data_manupulation.list()
 
-    # task display
-    else:
-        task_manupulation.display_today(a_id)
-
-    # run again with ID incremented/decremented by increment amount and times decrmented by 1
-    if(type(a_id)==int):
-        a_id += inc
-    a_times -= 1
-    parse_arguments(args, a_id, a_name, a_duration, a_st, a_times=a_times, inc=inc)
+        # task display
+        else:
+            task_manupulation.display_today(a_id)
 
     return(True)
 
@@ -136,7 +132,7 @@ def main():
 
     args_extra = parser.add_argument_group("Extra")
 
-    args_recursion = parser.add_argument_group("Recursion")
+    args_iterate = parser.add_argument_group("Iteration")
 
     args_settings = parser.add_argument_group("Settings")
     args_settings_excl = args_settings.add_mutually_exclusive_group()
@@ -157,7 +153,7 @@ def main():
     args_task_excl.add_argument('-r', action='store_true', help='remove [ID]')
     args_task_excl.add_argument('-s', action='store_true', help='skip [ID]')
     args_task_excl.add_argument('-us', action='store_true', help='unskip [ID]')
-    args_task_excl.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify [ID] [Name] [Duration]')
+    args_task_excl.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify [New ID] [New Name] [New Duration]')
     args_task_excl.add_argument('-D', action='store_true', help='mark all tasks done')
     args_task_excl.add_argument('-U', action='store_true', help='mark all tasks undone')
 
@@ -170,9 +166,9 @@ def main():
     ## extra info arguments
     args_extra.add_argument('-st', metavar='[time]', action='store', type=str, help='Task start time')
 
-    ##  recursion arguments
-    args_recursion.add_argument('-t', metavar='[int]', action='store', type=int, help='do it this number of times')
-    args_recursion.add_argument('-inc', action='store_true', help='increment ID by 1 after each time')
+    ##  iteration arguments
+    args_iterate.add_argument('-t', metavar='[int]', action='store', type=int, help='iterate this number of times')
+    args_iterate.add_argument('-inc', action='store_true', help='increment ID by 1 each time')
 
     ## settings manupulation arguments
     args_settings_excl.add_argument('-c', action='store_true', help='configure settings')
