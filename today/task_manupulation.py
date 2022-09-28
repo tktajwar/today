@@ -52,12 +52,18 @@ def create(id=None, name=None, duration=None, skip=False, done=False, start_at=N
     data_manupulation.write()
     return(True)
 
-def task_remove(id=None):
+def task_remove(id=None, every=False):
     '''
     remove task
     '''
 
     global tasks
+
+    # remove every Tasks
+    if(every):
+        tasks = []
+        data_manupulation.write()
+        return(True)
 
     # if ID is provided then remove that task
     if(type(id)==int):
@@ -69,6 +75,8 @@ def task_remove(id=None):
 
     # write task data
     data_manupulation.write()
+    
+    return(True)
 
 def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
     '''
@@ -329,10 +337,18 @@ def task_undo_all():
     # write data
     data_manupulation.write()
 
-def task_skip(id=None):
+def task_skip(id=None, every=False):
     '''
     mark skip of a task
     '''
+    global tasks
+
+    # skip every Tasks
+    if(every):
+        for task in tasks:
+            task['skip'] = True
+        data_manupulation.write()
+        return(True)
 
     # get the next undone task
     if(type(id) != int):
@@ -341,7 +357,7 @@ def task_skip(id=None):
             print("All Tasks are already done")
             return(False)
 
-    # toggle skip of task
+    # skip task
     tasks[id]['skip'] = True
 
     # write data
@@ -349,10 +365,18 @@ def task_skip(id=None):
 
     return(True)
     
-def task_unskip(id=None):
+def task_unskip(id=None, every=False):
     '''
     unmark skip of a task
     '''
+    global tasks
+
+    # unskip every Tasks
+    if(every):
+        for task in tasks:
+            task['skip'] = False 
+        data_manupulation.write()
+        return(True)
 
     # get the last skipped task
     if(type(id) != int):
