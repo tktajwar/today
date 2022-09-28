@@ -5,6 +5,7 @@ import argparse
 from . import task_manupulation
 from . import data_manupulation
 from . import settings_manupulation
+from . import todo
 from . import notes
 from . import time_formatting
 
@@ -79,6 +80,22 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
         elif(args.ct):
             settings_manupulation.change_theme()
 
+        # todo add
+        if(args.ta):
+            todo.add(a_id, a_name, a_duration)
+
+        # todo remove
+        elif(args.tr):
+            todo.remove(a_id)
+
+        # todo save
+        elif(type(args.ts)==int):
+            task_manupulation.save_todo(args.ts, a_id)
+
+        # todo save
+        elif(type(args.tl)==int):
+            task_manupulation.load_todo(args.tl, a_id)
+
         # notes show
         elif(args.ns):
             notes.show(a_id)
@@ -137,6 +154,9 @@ def main():
     args_settings = parser.add_argument_group("Settings")
     args_settings_excl = args_settings.add_mutually_exclusive_group()
 
+    args_todo = parser.add_argument_group("Todo List")
+    args_todo_excl = args_todo.add_mutually_exclusive_group()
+
     args_note = parser.add_argument_group("Notes")
     args_note_excl = args_note.add_mutually_exclusive_group()
 
@@ -173,6 +193,12 @@ def main():
     ## settings manupulation arguments
     args_settings_excl.add_argument('-c', action='store_true', help='configure settings')
     args_settings_excl.add_argument('-ct', action='store_true', help='change theme')
+
+    # todo list arguments
+    args_todo_excl.add_argument('--ta', action='store_true', help='add a new task to todo list')
+    args_todo_excl.add_argument('--tr', action='store_true', help='remove a task to todo list')
+    args_todo_excl.add_argument('--ts', metavar='[ID]', action='store', type=int, help='save a task to todo list')
+    args_todo_excl.add_argument('--tl', metavar='[ID]', action='store', type=int, help='load a task from todo list')
 
     ## notes manupulation arguments
     args_note_excl.add_argument('-ns', action='store_true', help='show notes')

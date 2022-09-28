@@ -128,8 +128,8 @@ def display(tasks, id=None):
 
     def get_attr_lengths():
         '''
-    # get max lenghts of each attributes for padding
-    '''
+        # get max lenghts of each attributes for padding
+        '''
 
         lengths = []
         lengths.append(max(len(str(len(tasks))), 2))
@@ -146,8 +146,8 @@ def display(tasks, id=None):
 
     def print_header(name, l):
         '''
-    # header printing functino
-    '''
+        # header printing functino
+        '''
 
         print(theme['highlight']['header'], end='')
         print(f"{name:{l}}", end='')
@@ -155,8 +155,8 @@ def display(tasks, id=None):
 
     def print_attr(attr, l):
         '''
-    # attribute printing function
-    '''
+        # attribute printing function
+        '''
 
         print(f"{str(attr):{l}}", end=' ')
 
@@ -221,10 +221,21 @@ def display(tasks, id=None):
 
     # display todo list
     todo.read()
-    print(f"{theme['highlight']['header']}Todo{theme['escape']}")
-    for i, task in enumerate(todo.todo):
-        print(f"{i}: {task['name']} {task['duration']}")
-    return(True)
+    if(todo.todo):
+        # print headers
+        print_header('ID', lengths[0]+lengths[1])
+        print_header('Todo', lengths[2])
+        print_header('Duration', lengths[3])
+        print()
+
+        # print attributes
+        for i, task in enumerate(todo.todo):
+            print(theme['highlight']['undone']['even'], end='')
+            print_attr(i, lengths[0]+lengths[1])
+            print_attr(task['name'], lengths[2])
+            print_attr(time_formatting.to_time(task['duration']), lengths[3])
+            print(theme['escape'])
+        return(True)
 
 def display_today(id=None):
     '''
@@ -391,3 +402,39 @@ def get_next(given_time):
 
     # if we never reach that point, return length
     return(len(tasks))
+
+def save_todo(id, a_id=None):
+    '''
+    save a task to todo list
+    '''
+    
+    # use the last task if no ID is provided
+    if(not(type(id)==int)):
+        id = len(tasks)-1
+
+    # add task to todo
+    todo.add(a_id, tasks[id]['name'], tasks[id]['duration'])
+
+    return(True)
+
+
+def load_todo(id, a_id):
+    '''
+    load a task from todo list
+    '''
+
+    # if todo list is empty then exist
+    if(not(todo.todo)):
+        print("Todo list is empty")
+        return(False)
+
+
+    # use the first task in todo list if no ID is provided
+    if(not(type(id)==int)):
+        id = 0
+
+    # add task to data
+    create(a_id, todo.todo[id]['name'], todo.todo[id]['duration'])
+
+    # remove task from todo list
+    todo.remove(id)

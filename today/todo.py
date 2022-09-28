@@ -10,7 +10,7 @@ settings = settings_manupulation.settings
 todo = []
 
 
-def add(id=None, name=None, duration=None, category=None):
+def add(id=None, name=None, duration=None):
     '''
     add a new task
     '''
@@ -48,15 +48,20 @@ def remove(id=None):
     remove task
     '''
 
-    global tasks
+    global todo 
+
+    # if todo list is empty then exit
+    if(not(todo)):
+        print("Todo list is empty")
+        return(False)
 
     # if ID is provided then remove that task
     if(type(id)==int):
-        todo .pop(id)
+        todo.pop(id)
 
     # else, remove the last task
     else:
-        todo .pop()
+        todo.pop()
 
     # write task data
     write()
@@ -65,7 +70,7 @@ def remove(id=None):
 
 def write():
     '''
-    write task dat
+    write task data
     '''
 
     with open(paths.todo_path, 'w') as data:
