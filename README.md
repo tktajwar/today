@@ -1,6 +1,6 @@
 # today
 
-**A terminal program to help you plan your day and execute it in an organised way**
+**A command line program to help you plan your day and execute it in an organised way**
 
 ![screenshot_1](screenshots/screenshot_1.png)
 
@@ -10,13 +10,13 @@ Screenshots taken on Gnome Terminal.
 
 # Getting Started
 
-**today** is a day planner program written in *Python 3*. The intention of developing this program was to help people plan the tasks they are going take today with the amount of time they are planning to spend on them. This Command Line application will help you have a realistic idea of what you can do today and stay focused on your day plan throughout the day.
+**today** is a day planner program written in *Python 3*. The intention of developing this program was to help people plan their whole day and stay organised and productive throughout their day. This Command Line application will help you have a realistic for your day, save hours of your time and let stay focused on your day plan throughout the day.
 
-*today* has quite a few features. This short introduction will give you an idea of what this program is about and how to start using it.
+*today* has quite a few features. This short introduction will give you an idea of the basics of the basics of the program and help you start using it.
 
 To see how to install *today*, scroll down to [installation guide](#Install-today).
 
-## the help message
+## The Help Message
 
 Open your terminal.
 
@@ -30,23 +30,31 @@ You should see a longer version of this help message:
 
 ```
 positional arguments:
-  Arguments            Task ID [int], Name [str], Duration [int]
+  ID Name Duration  [int] [str] [time]
 
 options:
-  -h, --help           show this help message and exit
-  -a, --add            add/append a new Task [Name][Duration]
-  -d, --done           mark a task as done [ID]
-  -u, --undo           mark a task as undone [ID]
-  -r, --remove         remove Task [ID]
-  -t, --toggle         toggle Skip of Task [ID]
-  -c, --settings       configure settings data
+  -h, --help        show this help message and exit
+
+Basic Task and Data:
+  -a                add/append a new Task [ID][Name][Duration]
+  -d                mark done [ID]
+  -D                mark undone [ID]
+  -r                remove [ID]
+  -s                skip [ID]
+  -S                unskip [ID]
+  -m [ID]           modify [New ID] [New Name] [New Duration]
+
+Modifiers:
+  -e                do action for every Tasks
+  -t [int]          iterate this number of times
+  -i                increment ID by 1 each time
 ```
 
 This is the shortened version of the help message for *today*. We will only be looking at what we need to know to get started using this program.
 
-Let's say we woke up in the morning and the first task of our day will be to exercise for 40 minutes. But how do we add a new task? Well if you look under the options, you will see one option that starts with `-a` with the message "add/append a new Task [Name] [Duration]".  Let's use that.
-
 ## adding a new task
+
+Let's say we woke up in the morning and the first task of our day will be to exercise for 40 minutes. But how do we add a new task? Well if you look under the options, you will see one option that starts with `-a` with the message "add/append a new Task [Name] [Duration]".  Let's use that.
 
 ```console
 today -a Exercise 40m
@@ -111,7 +119,7 @@ today -d
 Task 0: Exercise done.
 ```
 
-We did not tell the program which task we just did, why did it pick `Task 0`? Because it was the next task on our list. Let's see our day plan again.
+We did not tell the program which task we just did, why did it pick `Task 0`? Because it was the next task on our list. Let's see our day again.
 
 ```console
 today
@@ -127,9 +135,9 @@ ID Time  Name              Duration Skip     Done
 5  10:00 Important Project  3:00    False    False
 ```
 
-Did you notice that `Shower` is now highlighted as the next task?
+Did you notice that `Shower` is now highlighted as the next task? It's the next Task of our day.
 
-## using ID
+## Using ID
 
 But what if we want to mark a specific task as done?
 
@@ -145,15 +153,20 @@ Task 2: Cook done.
 
 We are getting the hang of this.
 
-## undo, skip, remove and many more
+## Undo, Skip, Remove
 
-To undo a done task, you can use the optional argument `-u` the same way as you would use `-d`. If you don't provide any `ID` then the last done task will be undone.
+To undo a done task, you can use the optional argument `-D` the same way as you would use `-d`. If you don't provide any `ID` then the last done task will be undone.
 
-If you want to skip a task, you can use `-t` to toggle skip status of a task. A skipped task won't be highlighted as **next**.
+
+If you want to skip a task, you can use `-s` to mark task as skipped. A skipped task won't be highlighted as **next**.
+
+Use `-S` to unskip.
 
 `-r` will remove a task. Be careful, this option is not reversible.
 
-*today* comes with many more optional arguments that you can learn on your own. The Help message and experimentation are your friends.
+## Learn More
+
+A wiki will be coming for other optional arguments such as: Iteration, Every, Theming and usage of the Todo List.
 
 # Install today
 
