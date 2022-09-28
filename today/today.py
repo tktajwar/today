@@ -87,11 +87,11 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
             todo.remove(a_id)
 
         # todo save
-        elif(type(args.c)==int):
+        elif(type(args.C)==int):
             task_manupulation.save_todo(args.C, a_id)
 
         # todo save
-        elif(type(args.l)==int):
+        elif(type(args.L)==int):
             task_manupulation.load_todo(args.L, a_id)
 
         # data save file
@@ -170,12 +170,12 @@ def main():
     # todo list arguments
     args_todo_excl.add_argument('-A', action='store_true', help='add a new task to todo list [ID] [Name] [Duration]')
     args_todo_excl.add_argument('-R', action='store_true', help='remove a task from todo list [ID]')
-    args_todo_excl.add_argument('-c', metavar='[ID]', action='store', type=int, help='copy a task to todo list')
-    args_todo_excl.add_argument('-l', metavar='[ID]', action='store', type=int, help='load a task from todo list')
+    args_todo_excl.add_argument('-C', metavar='[ID]', action='store', type=int, help='copy a task to todo list')
+    args_todo_excl.add_argument('-L', metavar='[ID]', action='store', type=int, help='load a task from todo list')
 
     ## modifier arguments
     args_mod.add_argument('-e', action='store_true', help='do action for every Tasks')
-    args_mod.add_argument('-t', metavar='[int]', action='store', type=int, help='iterate this number of times')
+    args_mod.add_argument('-t', metavar='[int]', action='store', type=int, help='times - iterate this number of times')
     args_mod.add_argument('-i', action='store_true', help='increment ID by 1 each time')
 
     ## settings manupulation arguments
