@@ -7,7 +7,6 @@ from . import task_manupulation
 from . import data_manupulation
 from . import settings_manupulation
 from . import todo
-from . import notes
 from . import time_formatting
 
 def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_times=1, inc=0):
@@ -95,18 +94,6 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
         elif(type(args.l)==int):
             task_manupulation.load_todo(args.L, a_id)
 
-        # notes show
-        elif(args.n):
-            notes.show(a_id)
-
-        # notes add
-        elif(args.na):
-            notes.add(a_name, a_id)
-
-        # notes remove
-        elif(args.nx):
-            notes.remove(a_id)
-
         # data save file
         elif(args.xs):
             data_manupulation.save(args.xs)
@@ -148,16 +135,13 @@ def main():
 
     args_extra = parser.add_argument_group("Extra")
 
+    args_todo = parser.add_argument_group("Todo List")
+    args_todo_excl = args_todo.add_mutually_exclusive_group()
+
     args_mod = parser.add_argument_group("Modifiers")
 
     args_settings = parser.add_argument_group("Settings")
     args_settings_excl = args_settings.add_mutually_exclusive_group()
-
-    args_todo = parser.add_argument_group("Todo List")
-    args_todo_excl = args_todo.add_mutually_exclusive_group()
-
-    args_note = parser.add_argument_group("Notes")
-    args_note_excl = args_note.add_mutually_exclusive_group()
 
     args_file = parser.add_argument_group("File")
     args_file_excl = args_file.add_mutually_exclusive_group()
@@ -183,6 +167,12 @@ def main():
     ## extra info arguments
     args_extra.add_argument('-T', metavar='[time]', action='store', type=str, help='Task start time')
 
+    # todo list arguments
+    args_todo_excl.add_argument('-A', action='store_true', help='add a new task to todo list [ID] [Name] [Duration]')
+    args_todo_excl.add_argument('-R', action='store_true', help='remove a task from todo list [ID]')
+    args_todo_excl.add_argument('-c', metavar='[ID]', action='store', type=int, help='copy a task to todo list')
+    args_todo_excl.add_argument('-l', metavar='[ID]', action='store', type=int, help='load a task from todo list')
+
     ## modifier arguments
     args_mod.add_argument('-e', action='store_true', help='do action for every Tasks')
     args_mod.add_argument('-t', metavar='[int]', action='store', type=int, help='iterate this number of times')
@@ -191,17 +181,6 @@ def main():
     ## settings manupulation arguments
     args_settings_excl.add_argument('--conf', action='store_true', help='configure settings')
     args_settings_excl.add_argument('--theme', action='store_true', help='change theme')
-
-    # todo list arguments
-    args_todo_excl.add_argument('-A', action='store_true', help='add a new task to todo list [ID] [Name] [Duration]')
-    args_todo_excl.add_argument('-R', action='store_true', help='remove a task from todo list [ID]')
-    args_todo_excl.add_argument('-c', metavar='[ID]', action='store', type=int, help='copy a task to todo list')
-    args_todo_excl.add_argument('-l', metavar='[ID]', action='store', type=int, help='load a task from todo list')
-
-    ## notes manupulation arguments
-    args_note_excl.add_argument('--n', action='store_true', help='show notes')
-    args_note_excl.add_argument('--na', action='store_true', help='add note')
-    args_note_excl.add_argument('--nx', action='store_true', help='delete note [ID]')
 
     ## file management arguments
     args_file_excl.add_argument('--xs', metavar='[filename]', action='store', type=str, help='save')
