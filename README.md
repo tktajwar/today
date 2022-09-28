@@ -10,9 +10,9 @@ Screenshots taken on Gnome Terminal.
 
 # Getting Started
 
-**today** is a day planner program written in *Python 3*. The intention of developing this program was to help people plan their whole day and stay organised and productive throughout their day. This Command Line application will help you have a realistic for your day, save hours of your time and let stay focused on your day plan throughout the day.
+**today** is a Command Line day planner program. The intention of developing this program was to help people plan their whole day and stay organised and productive. This Command Line application will let you have a realistic plan for your day, save your time, and help you stay organised.
 
-*today* has quite a few features. This short introduction will give you an idea of the basics of the basics of the program and help you start using it.
+*today* has quite a few features. This short introduction will introduce you to basic commands.
 
 To see how to install *today*, scroll down to [installation guide](#Install-today).
 
