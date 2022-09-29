@@ -45,9 +45,9 @@ Basic Task and Data:
   -m [ID]           modify [New ID] [New Name] [New Duration]
 
 Modifiers:
-  -e                do action for every Tasks
-  -t [int]          iterate this number of times
-  -i                increment ID by 1 each time
+  -E                do action for every Tasks
+  -i [int]          iterate this number of times
+  -I                increment ID by 1 each time
 ```
 
 This is the shortened version of the help message for *today*. We will only be looking at what we need to know to get started using this program.
