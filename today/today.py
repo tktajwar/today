@@ -55,23 +55,23 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
             task_manupulation.task_modify(args.m, a_id, a_name, a_duration, a_st)
 
         # data purge
-        elif(args.p):
+        if(args.p):
             data_manupulation.purge()
 
         # data retrieve
-        elif(args.v):
+        elif(args.P):
             data_manupulation.retrieve()
 
         # data newday
-        elif(args.sn):
+        elif(args.aa):
             data_manupulation.newday()
 
         # data yesterday
-        elif(args.ys):
+        elif(args.yy):
             task_manupulation.display_yesterday(a_id)
 
         # settings configure
-        elif(args.conf):
+        if(args.conf):
             settings_manupulation.change()
 
         # settings theme change
@@ -90,12 +90,12 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
         elif(type(args.C)==int):
             task_manupulation.save_todo(args.C, a_id)
 
-        # todo save
+        # todo load 
         elif(type(args.L)==int):
             task_manupulation.load_todo(args.L, a_id)
 
         # data save file
-        elif(args.xs):
+        if(args.xs):
             data_manupulation.save(args.xs)
 
         # dat load file
@@ -111,7 +111,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
             data_manupulation.list()
 
         # task display
-        if(len(argv)<=1):
+        if(len(argv)<=1 or args.y):
             task_manupulation.display_today(a_id)
 
     return(True)
@@ -150,22 +150,23 @@ def main():
     parser.add_argument('arguments', metavar='ID Name Duration', nargs='*', help='[int] [str] [time]')
 
     ## task manupulation arguments
-    args_task_excl.add_argument('-a', action='store_true', help='add/append a new Task [ID][Name][Duration]')
+    args_task_excl.add_argument('-a', action='store_true', help='add/append Task [ID][Name][Duration]')
     args_task_excl.add_argument('-d', action='store_true', help='mark done [ID]')
     args_task_excl.add_argument('-D', action='store_true', help='mark undone [ID]')
     args_task_excl.add_argument('-r', action='store_true', help='remove [ID]')
     args_task_excl.add_argument('-s', action='store_true', help='skip [ID]')
     args_task_excl.add_argument('-S', action='store_true', help='unskip [ID]')
     args_task_excl.add_argument('-m', metavar='[ID]',  action='store', type=int, help='modify [New ID] [New Name] [New Duration]')
+    args_task.add_argument('-y', action='store_true', help='display Tasks')
 
     ## advanced data manupulation arguments
     args_data_excl.add_argument('-p', action='store_true', help='purge Task Data')
-    args_data_excl.add_argument('-v', action='store_true', help='retrieve from Purged Task Data')
-    args_data_excl.add_argument('--sn', action='store_true', help='stat a new day')
-    args_data_excl.add_argument('--ys', action='store_true', help='show yesterday')
+    args_data_excl.add_argument('-P', action='store_true', help='retrieve purged Task Data')
+    args_data_excl.add_argument('--aa', action='store_true', help='stat a new day')
+    args_data_excl.add_argument('--yy', action='store_true', help='display yesterday')
 
     ## extra info arguments
-    args_extra.add_argument('-T', metavar='[time]', action='store', type=str, help='Task start time')
+    args_extra.add_argument('-t', metavar='[time]', action='store', type=str, help='Task start time')
 
     # todo list arguments
     args_todo_excl.add_argument('-A', action='store_true', help='add a new task to todo list [ID] [Name] [Duration]')
@@ -174,9 +175,9 @@ def main():
     args_todo_excl.add_argument('-L', metavar='[ID]', action='store', type=int, help='load a task from todo list')
 
     ## modifier arguments
-    args_mod.add_argument('-e', action='store_true', help='do action for every Tasks')
-    args_mod.add_argument('-t', metavar='[int]', action='store', type=int, help='times - iterate this number of times')
-    args_mod.add_argument('-i', action='store_true', help='increment ID by 1 each time')
+    args_mod.add_argument('-E', action='store_true', help='do action for every Tasks')
+    args_mod.add_argument('-i', metavar='[int]', action='store', type=int, help='iterate this number of times')
+    args_mod.add_argument('-I', action='store_true', help='increment ID by 1 each time')
 
     ## settings manupulation arguments
     args_settings_excl.add_argument('--conf', action='store_true', help='configure settings')
@@ -193,8 +194,8 @@ def main():
 
     # number of times the action will be run
     a_times = 1
-    if(args.t):
-        a_times = args.t
+    if(args.i):
+        a_times = args.i
 
     # get ID, name and duration from user argument
     a_id, a_name, a_duration = None, None, None
@@ -234,7 +235,7 @@ def main():
         a_duration = time_formatting.to_min(a_duration)
 
     # turn start_at duration into minutes
-    a_st = args.T 
+    a_st = args.t 
     if(a_st):
         if(a_st == '-1'):
             a_st = -1
@@ -242,7 +243,7 @@ def main():
             a_st = time_formatting.to_min(a_st)
 
     # increment
-    inc = 1 if args.i else 0
+    inc = 1 if args.I else 0
 
     parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_st=a_st, a_times=a_times, inc=inc)
 
