@@ -61,8 +61,8 @@ def task_remove(id=None, every=False):
 
     # remove every Tasks
     if(every):
-        tasks = []
-        data_manupulation.write()
+        for _ in range(len(tasks)):
+            task_remove(0)
         return(True)
 
     # if ID is provided then remove that task
@@ -78,12 +78,18 @@ def task_remove(id=None, every=False):
     
     return(True)
 
-def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None):
+def task_modify(id=None, new_id=None, name=None, duration=None, start_at=None, every=False):
     '''
     modify task
     '''
 
     global tasks
+
+    # modify every tasks
+    if(every):
+        for i in range(len(tasks)):
+            task_modify(id=i, new_id=new_id, name=name, duration=duration, start_at=start_at, every=False)
+        return(True)
 
     # if no ID is passed then pick the last task
     if(type(id) != int):
@@ -427,10 +433,15 @@ def get_next(given_time):
     # if we never reach that point, return length
     return(len(tasks))
 
-def save_todo(id, a_id=None):
+def save_todo(id, a_id=None, every=False):
     '''
     save a task to todo list
     '''
+
+    # save every tasks
+    if(every):
+        for i in range(len(tasks)):
+            save_todo(i, a_id=a_id, every=False)
     
     # use the last task if no ID is provided
     if(not(type(id)==int)):
@@ -442,10 +453,15 @@ def save_todo(id, a_id=None):
     return(True)
 
 
-def load_todo(id, a_id):
+def load_todo(id, a_id, every=False):
     '''
     load a task from todo list
     '''
+
+    # load every tasks
+    if(every):
+        for i in range(len(todo.todo)):
+            load_todo(i, a_id=a_id, every=False)
 
     # if todo list is empty then exist
     if(not(todo.todo)):

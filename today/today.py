@@ -26,33 +26,33 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
 
         # task done
         elif(args.d):
-            if(args.e): # every
+            if(args.E): # every
                 task_manupulation.task_do_all()
             else:
                 task_manupulation.task_do(a_id)
 
         # task undo
         elif(args.D):
-            if(args.e): # every
+            if(args.E): # every
                 task_manupulation.task_undo_all()
             else:
                 task_manupulation.task_undo(a_id)
 
         # task remove
         elif(args.r):
-            task_manupulation.task_remove(a_id, every=args.e)
+            task_manupulation.task_remove(a_id, every=args.E)
 
         # task skip
         elif(args.s):
-            task_manupulation.task_skip(a_id, every=args.e)
+            task_manupulation.task_skip(a_id, every=args.E)
 
         # task unskip
         elif(args.S):
-            task_manupulation.task_unskip(a_id, every=args.e)
+            task_manupulation.task_unskip(a_id, every=args.E)
 
         # task modify
         elif(type(args.m)==int):
-            task_manupulation.task_modify(args.m, a_id, a_name, a_duration, a_st)
+            task_manupulation.task_modify(args.m, a_id, a_name, a_duration, a_st, every=args.E)
 
         # data purge
         if(args.p):
@@ -84,15 +84,15 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
 
         # todo remove
         elif(args.R):
-            todo.remove(a_id)
+            todo.remove(a_id, every=args.E)
 
         # todo save
         elif(type(args.C)==int):
-            task_manupulation.save_todo(args.C, a_id)
+            task_manupulation.save_todo(args.C, a_id, every=args.E)
 
         # todo load 
         elif(type(args.L)==int):
-            task_manupulation.load_todo(args.L, a_id)
+            task_manupulation.load_todo(args.L, a_id, every=args.E)
 
         # data save file
         if(args.xs):
@@ -104,7 +104,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
 
         # data delete file
         elif(args.xx):
-            data_manupulation.delete(args.xx)
+            data_manupulation.delete(args.xx, every=args.E)
 
         # data list files
         elif(args.ls):

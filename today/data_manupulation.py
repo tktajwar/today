@@ -98,10 +98,17 @@ def load(filename='default'):
     except FileNotFoundError:
         print(f"No file saved with the name {filename}.")
 
-def delete(filename='default'):
+def delete(filename='default', every=False):
     '''
     delete a task file
     '''
+
+    # delete everything
+    if(every):
+        for filename in listdir(paths.save_path):
+            if(filename.endswith('.json')):
+                file = join(paths.save_path, filename)
+                remove(file)
 
     filename = filename + '.json'
     try:
@@ -115,7 +122,8 @@ def list():
     '''
 
     for file in listdir(paths.save_path):
-        print(file)
+        if(file.endswith('.json')):
+            print(file[:-5])
 
 # read task data
 read()

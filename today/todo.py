@@ -43,12 +43,18 @@ def add(id=None, name=None, duration=None):
 
     return(True)
 
-def remove(id=None):
+def remove(id=None, every=False):
     '''
     remove task
     '''
 
     global todo 
+
+    # remove everything
+    if(every):
+        todo = []
+        write()
+        return(False)
 
     # if todo list is empty then exit
     if(not(todo)):
