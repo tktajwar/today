@@ -52,7 +52,7 @@ Modifiers:
 
 This is the shortened version of the help message for *today*. We will only be looking at what we need to know to get started using this program.
 
-## adding a new task
+## Creating a New Task
 
 Let's say we woke up in the morning and the first task of our day will be to exercise for 40 minutes. But how do we add a new task? Well if you look under the options, you will see one option that starts with `-a` with the message "add/append a new Task [Name] [Duration]".  Let's use that.
 
@@ -186,7 +186,9 @@ today -h
 ```
 Enjoy using *today*!
 
-## today: command not found
+# Having an Issue?
+
+## command not found
 
 ### Debian/Ubuntu
 
@@ -201,3 +203,7 @@ Then restart your shell.
 ### macOS
 
 Please read [this](https://stackoverflow.com/questions/35898734/pip-installs-packages-successfully-but-executables-not-found-from-command-line).
+
+## Any Other Issue?
+
+Please [post here](https://github.com/TajwarHjkl/today/issues/new/choose).
