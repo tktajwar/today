@@ -478,3 +478,20 @@ def load_todo(id, a_id, every=False):
 
     # remove task from todo list
     todo.remove(id)
+
+def copy_todo_yesterday():
+    '''
+    copy all undone tasks from yesterday's data to todo list
+    '''
+
+    try:
+        with open(paths.yesterday_path, 'r') as data:
+            yesterday = json.load(data)
+            for task in yesterday:
+                if(not(task['done'])):
+                    todo.add(None, task['name'], task['duration'])
+
+    except FileNotFoundError:
+        print("There is no Data file for Yesterday's tasks. Yesterday's data file is only generated when newday function is called.")
+
+

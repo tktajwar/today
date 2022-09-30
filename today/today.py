@@ -86,6 +86,10 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
         elif(type(args.L)==int):
             task_manupulation.load_todo(args.L, a_id, every=args.E)
 
+        # todo load undone from yesterday
+        elif(args.CY):
+            task_manupulation.copy_todo_yesterday()
+
         # settings set day start
         elif(type(a_time_start)==int):
             settings_manupulation.change_time(a_time_start)
@@ -102,7 +106,7 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
         if(args.xs):
             data_manupulation.save(args.xs)
 
-        # dat load file
+        # data load file
         elif(args.xl):
             data_manupulation.load(args.xl)
 
@@ -177,6 +181,7 @@ def main():
     args_todo_excl.add_argument('-R', action='store_true', help='remove a task from todo list [ID]')
     args_todo_excl.add_argument('-C', metavar='[ID]', action='store', type=int, help='copy a task to todo list')
     args_todo_excl.add_argument('-L', metavar='[ID]', action='store', type=int, help='load a task from todo list')
+    args_todo_excl.add_argument('--CY', action='store_true', help='copy yesterday\'s undone tasks to todo list')
 
     ## modifier arguments
     args_mod.add_argument('-E', action='store_true', help='do action for every Tasks')
