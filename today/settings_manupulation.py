@@ -149,6 +149,13 @@ def change_theme():
     except IndexError:
         print("Invalid ID!")
 
+def change_time(time):
+    global settings
+
+    settings['time_start'] = time
+
+    write()
+
 # check and create necessary files and directories
 paths.check_and_create()
 

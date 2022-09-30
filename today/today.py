@@ -9,7 +9,7 @@ from . import settings_manupulation
 from . import todo
 from . import time_formatting
 
-def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_times=1, inc=0):
+def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_time_start=None, a_times=1, inc=0):
     '''
     argument parsing function
     '''
@@ -70,14 +70,6 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
         elif(args.yy):
             task_manupulation.display_yesterday(a_id)
 
-        # settings configure
-        if(args.conf):
-            settings_manupulation.change()
-
-        # settings theme change
-        elif(args.theme):
-            settings_manupulation.change_theme()
-
         # todo add
         if(args.A):
             todo.add(a_id, a_name, a_duration)
@@ -94,6 +86,18 @@ def parse_arguments(args, a_id=None, a_name=None, a_duration=None, a_st=None, a_
         elif(type(args.L)==int):
             task_manupulation.load_todo(args.L, a_id, every=args.E)
 
+        # settings set day start
+        elif(type(a_time_start)==int):
+            settings_manupulation.change_time(a_time_start)
+
+       # settings configure
+        if(args.conf):
+            settings_manupulation.change()
+
+        # settings theme change
+        elif(args.theme):
+            settings_manupulation.change_theme()
+        
         # data save file
         if(args.xs):
             data_manupulation.save(args.xs)
@@ -180,6 +184,7 @@ def main():
     args_mod.add_argument('-I', action='store_true', help='increment ID by 1 each time')
 
     ## settings manupulation arguments
+    args_settings_excl.add_argument('-T', metavar='[time]', action='store', type=str, help='day start time')
     args_settings_excl.add_argument('--conf', action='store_true', help='configure settings')
     args_settings_excl.add_argument('--theme', action='store_true', help='change theme')
 
@@ -242,10 +247,14 @@ def main():
         else:
             a_st = time_formatting.to_min(a_st)
 
+    # turn time start into minutes
+    a_time_start = args.T
+    if(a_time_start):
+        a_time_start = time_formatting.to_min(a_time_start)
     # increment
     inc = 1 if args.I else 0
 
-    parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_st=a_st, a_times=a_times, inc=inc)
+    parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_st=a_st, a_time_start=a_time_start, a_times=a_times, inc=inc)
 
     
 if __name__ == "__main__":
