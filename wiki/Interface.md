@@ -34,4 +34,4 @@ Flag names that start with double hypens (`--`) are called long flags. If the na
 
 ### Short Flags
 
-Flag names that start with single hypen (`-` are called short flags. They are one character long and they often act like switches. If a single flag is called `f` and it takes an Integer argument then it can be written as both `-f5` and `-f 5`. Multiple single flags can also be written together; for example, short flags `-a`, `-b`, `-c`, `-d` can all be written as `-abcd`.
+Flag names that start with single hypen (`-`) are called short flags. They are one character long and they often act like switches. If a single flag is called `f` and it takes an Integer argument then it can be written as both `-f5` and `-f 5`. Multiple single flags can also be written together; for example, short flags `-a`, `-b`, `-c`, `-d` can all be written as `-abcd`.

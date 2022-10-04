@@ -3,18 +3,17 @@
 ## Sections
 
 * [Interface](Interface)
-	* Why CLI
-	* Positional Arguments
-	* Flags
-* Task and Data
-	* Basic Task and Data
-	* Advanced Data
-	* Extra
-* Todo List
+	* [Why CLI](Interface##Why CLI)
+	* [Positional Arguments](Interface##Positional Arguments)
+	* [Flags](Interface##Flags)
+* [Task and Data](Task and Data)
+	* [Basic Task and Data](Task and Data##Basic Task and Data)
+	* [Advanced Data](Task and Data##Advanced Data)
+* [Todo List](Todo List)
 	* Basic Todo List
 	* Copying and Loading
-* Modifiers
+* [Modifiers](Modifiers)
 	* Do Action for Every Tasks
 	* Iteration
-* Settings and Personalization
-* File Management
+* [Settings and Personalization](Settings and Personalization)
+* [File Management](File Management)
