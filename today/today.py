@@ -147,6 +147,7 @@ def main():
     args_todo_excl = args_todo.add_mutually_exclusive_group()
 
     args_mod = parser.add_argument_group("Modifiers")
+    args_mod_iteration_excl = args_mod.add_mutually_exclusive_group()
 
     args_settings = parser.add_argument_group("Settings")
     args_settings_excl = args_settings.add_mutually_exclusive_group()
@@ -185,8 +186,8 @@ def main():
 
     ## modifier arguments
     args_mod.add_argument('-E', action='store_true', help='do action for every Tasks')
-    args_mod.add_argument('-i', metavar='[int]', action='store', type=int, help='iterate this number of times')
-    args_mod.add_argument('-I', action='store_true', help='increment ID by 1 each time')
+    args_mod_iteration_excl.add_argument('-i', metavar='[int]', action='store', type=int, help='iterate this number of times')
+    args_mod_iteration_excl.add_argument('-I', metavar='[int]', action='store', type=int, help='iterate this number of times with incrementing ID')
 
     ## settings manupulation arguments
     args_settings_excl.add_argument('-T', metavar='[time]', action='store', type=str, help='day start time')
@@ -202,10 +203,14 @@ def main():
     ##
     args = parser.parse_args()
 
-    # number of times the action will be run
+    # number of times the action will be run and ID increation
+    inc = 0
     a_times = 1
     if(args.i):
         a_times = args.i
+    elif(args.I):
+        a_times = args.I
+        inc = 1
 
     # get ID, name and duration from user argument
     a_id, a_name, a_duration = None, None, None
@@ -256,8 +261,6 @@ def main():
     a_time_start = args.T
     if(a_time_start):
         a_time_start = time_formatting.to_min(a_time_start)
-    # increment
-    inc = 1 if args.I else 0
 
     parse_arguments(args=args, a_id=a_id, a_name=a_name, a_duration=a_duration, a_st=a_st, a_time_start=a_time_start, a_times=a_times, inc=inc)
 
