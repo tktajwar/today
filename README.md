@@ -166,7 +166,7 @@ Use `-S` to unskip.
 
 ## Learn More
 
-A wiki will be coming for other optional arguments such as: Iteration, Every, Theming and usage of the Todo List.
+To learn more, please read [the wiki](wiki/wiki.md).
 
 # Install today
 
