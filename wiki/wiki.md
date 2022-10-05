@@ -10,8 +10,7 @@
 	* [Basic Task and Data](Task and Data##Basic Task and Data)
 	* [Advanced Data](Task and Data##Advanced Data)
 * [Todo List](Todo List)
-	* Basic Todo List
-	* Copying and Loading
+	* [Basic Todo List](Todo List##Basic Todo List)
 * [Modifiers](Modifiers)
 	* Do Action for Every Tasks
 	* Iteration
