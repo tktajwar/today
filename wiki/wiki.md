@@ -2,17 +2,17 @@
 
 ## Sections
 
-* [Interface](Interface)
-	* [Why CLI](Interface##Why CLI)
-	* [Positional Arguments](Interface##Positional Arguments)
-	* [Flags](Interface##Flags)
-* [Task and Data](Task and Data)
-	* [Basic Task and Data](Task and Data##Basic Task and Data)
-	* [Advanced Data](Task and Data##Advanced Data)
-* [Todo List](Todo List)
-	* [Basic Todo List](Todo List##Basic Todo List)
-* [Modifiers](Modifiers)
-	* Do Action for Every Tasks
-	* Iteration
-* [Settings and Personalization](Settings and Personalization)
-* [File Management](File Management)
+* [Interface](Interface.md)
+	* [Why CLI](Interface.md##Why CLI)
+	* [Positional Arguments](Interface.md##Positional Arguments)
+	* [Flags](Interface.md##Flags)
+* [Task and Data](Task and Data.md)
+	* [Basic Task and Data](Task and Data.md##Basic Task and Data)
+	* [Advanced Data](Task and Data.md##Advanced Data)
+* [Todo List](Todo List.md)
+	* [Basic Todo List](Todo List.md##Basic Todo List)
+* [Modifiers](Modifiers.md)
+	* [Do Action for Every Tasks](Modifiers.md##Do Action For Every Tasks)
+	* [Iteration](Modifiers.md##Iteration)
+* [Settings and Personalization](Settings and Personalization.md)
+* [File Management](File Management.md)
