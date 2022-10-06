@@ -16,6 +16,8 @@ Screenshots taken on Gnome Terminal.
 
 To see how to install *today*, scroll down to [installation guide](#Install-today).
 
+You can find the full wiki documentation [here](https://github.com/TajwarHjkl/today/wiki).
+
 ## The Help Message
 
 Open your terminal.
@@ -166,7 +168,7 @@ Use `-S` to unskip.
 
 ## Learn More
 
-To learn more, please read [the wiki](wiki/wiki.md).
+To learn more, please read [the wiki](https://github.com/TajwarHjkl/today/wiki).
 
 # Install today
 
