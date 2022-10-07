@@ -172,24 +172,35 @@ To learn more, please read [the wiki](https://github.com/TajwarHjkl/today/wiki).
 
 # Install today
 
-## Pip
+**Methods:**
 
-The OS Independent way of installing *today*.
+* [Install With Pip](#Install-With-Pip) (OS Independent - Easiest)
+* [Clone The Project](#Clone)
+
+## Install With Pip
 
 ```console
 pip install today-cli
 ```
 
-## Cloning
+## Clone
 
-Clones the whole project from GitHub and installs *today*.
+### From GitHub
 
 ```console
 git clone https://github.com/TajwarHjkl/today
 cd today
 pip install .
-today -h
 ```
+
+### From GitLab
+
+```console
+git clone https://gitlab.com/TajwarHjkl/today
+cd today
+pip install .
+```
+
 Enjoy using *today*!
 
 # Having an Issue?
