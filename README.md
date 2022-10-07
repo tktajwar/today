@@ -174,11 +174,15 @@ To learn more, please read [the wiki](https://github.com/TajwarHjkl/today/wiki).
 
 ## Pip
 
+The OS Independent way of installing *today*.
+
 ```console
 pip install today-cli
 ```
 
 ## Cloning
+
+Clones the whole project from GitHub and installs *today*.
 
 ```console
 git clone https://github.com/TajwarHjkl/today
