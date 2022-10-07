@@ -172,13 +172,13 @@ To learn more, please read [the wiki](https://github.com/TajwarHjkl/today/wiki).
 
 # Install today
 
-**Requirements:**
+## Pip
 
-* [Python 3](https://wiki.python.org/moin/BeginnersGuide/Download)
-* [Pip](https://pip.pypa.io/en/stable/installation/) (should come preinstalled with Python 3)
-* [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) (should come preinstalled on Linux and macOS)
+```console
+pip install today-cli
+```
 
-Open terminal and run:
+## Cloning
 
 ```console
 git clone https://github.com/TajwarHjkl/today
