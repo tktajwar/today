@@ -109,7 +109,7 @@ ID Time  Name              Duration Skip     Done
 5  10:00 Important Project  3:00    False    False
 ```
 
-## marking a task as done
+## Mark A Task Done
 
 Did you notice that asterisk (*) beside the first task? That indicates that task is the **next** task. If you look at the help message, you will find the option for marking a task as done (it's `-d`). Let's try that.
 
@@ -155,16 +155,21 @@ Task 2: Cook done.
 
 We are getting the hang of this.
 
-## Undo, Skip, Remove
+## Undo A Task
 
 To undo a done task, you can use the optional argument `-D` the same way as you would use `-d`. If you don't provide any `ID` then the last done task will be undone.
 
+## Skip A Task
 
 If you want to skip a task, you can use `-s` to mark task as skipped. A skipped task won't be highlighted as **next**.
 
 Use `-S` to unskip.
 
-`-r` will remove a task. Be careful, this option is not reversible.
+## Remove A Task
+
+`-r` will remove a task.
+
+Be careful, this option is not reversible.
 
 ## Learn More
 
@@ -172,36 +177,11 @@ To learn more, please read [the wiki](https://github.com/TajwarHjkl/today/wiki).
 
 # Install today
 
-**Methods:**
-
-* [Install With Pip](#Install-With-Pip) (OS Independent - Easiest)
-* [Clone The Project](#Clone)
-
 ## Install With Pip
 
 ```console
 pip install today-cli
 ```
-
-## Clone
-
-### From GitHub
-
-```console
-git clone https://github.com/TajwarHjkl/today
-cd today
-pip install .
-```
-
-### From GitLab
-
-```console
-git clone https://gitlab.com/TajwarHjkl/today
-cd today
-pip install .
-```
-
-Enjoy using *today*!
 
 # Having an Issue?
 
