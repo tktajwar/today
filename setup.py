@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
         name='today_cli',
-        version='0.1',
+        version='1.0',
         description='Plan and execute your day in an organised way.',
         url='https://github.com/TajwarHjkl/today',
         author='Takey Tajwar',
