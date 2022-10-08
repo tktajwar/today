@@ -174,13 +174,16 @@ def display(tasks, id=None):
 
         print(f"{str(attr):{l}}", end=' ')
 
+    # next task
+    next_undone = get_first({'done':False, 'skip': False})
+
+    if(not(next_undone)):
+        print(f"{theme['highlight']['undone']['even']}All tasks are done.{theme['escape']}")
+
     # print headers
     for attr, i in zip(['ID', 'Time', 'Name', 'Duration', 'Skip', 'Done'], lengths):
         print_header(attr, i)
     print()
-
-    # new task that is neither done nor marked to skip
-    next_undone = get_first({'done':False, 'skip': False})
 
     # for code reuse
     keys = ['skip', 'done']
