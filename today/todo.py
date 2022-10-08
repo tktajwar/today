@@ -30,13 +30,11 @@ def add(id=None, name=None, duration=None):
         "duration": int(duration),
         }
 
-    # if task ID is provided, insert new task there
+    # insert/append the new task
     if(type(id)==int):
-        todo .insert(id, task)
-
-    # else, append
+        todo.insert(id, task)
     else:
-        todo .append(task)
+        todo.append(task)
 
     # write task data
     write()
@@ -61,11 +59,9 @@ def remove(id=None, every=False):
         print("Todo list is empty")
         return(False)
 
-    # if ID is provided then remove that task
+    # remove task
     if(type(id)==int):
         todo.pop(id)
-
-    # else, remove the last task
     else:
         todo.pop()
 

@@ -35,16 +35,12 @@ def create(id=None, name=None, duration=None, skip=False, done=False, start_at=N
         "done": done,
         }
 
-    # find the appropriate id if start time is provided
+    # insert/append task
     if(type(start_at)==int):
         task['start_at'] = start_at
         tasks.insert(get_next(start_at), task)
-
-    # else, use the id if provided
     elif(type(id)==int):
         tasks.insert(id, task)
-
-    # else, append
     else:
         tasks.append(task)
 
@@ -65,11 +61,9 @@ def task_remove(id=None, every=False):
             task_remove(0)
         return(True)
 
-    # if ID is provided then remove that task
+    # remove task
     if(type(id)==int):
         tasks.pop(id)
-
-    # else, remove the last task
     else:
         tasks.pop()
 
@@ -288,11 +282,9 @@ def task_do(id):
             print("All Tasks are already done")
             return(False)
 
-    # if task is already done
+    # mark task as done
     if(tasks[id]['done']):
         print(f"Task {id}: {tasks[id]['name']} was already done.")
-
-    # else, mark task as done
     else:
         tasks[id]['done'] = True
         print(f"\033[91mTask {id}\033[0m: \33[33m{tasks[id]['name']}\033[0m done.")
@@ -312,11 +304,9 @@ def task_undo(id=None):
             print("All Tasks are already undone")
             return(False)
 
-    # if task is already marked undone
+    # mark task as undone
     if(not(tasks[id]['done'])):
         print(f"Task {id}: {tasks[id]['name']} was not marked done.")
-
-    # else, mark undone the task
     else:
         tasks[id]['done'] = False
         print(f"\033[91mTask {id}\033[0m: \33[33m{tasks[id]['name']}\033[0m is marked undone.")
