@@ -9,7 +9,7 @@ setup(
         description='Command Line Day Planner',
         long_description = long_description,
         long_description_content_type="text/markdown",
-        url='https://github.com/TajwarHjkl/today/archive/refs/tags/v1.0.0.tar.gz',
+        url='https://github.com/TajwarHjkl/today/archive/refs/tags/v1.1.0.tar.gz',
         author='Takey Tajwar',
         author_email='tajwar.earth@proton.me',
         license='GPLv3',
