@@ -172,7 +172,10 @@ def display(tasks, id=None):
     next_undone = get_first({'done':False, 'skip': False})
 
     if(not(next_undone)):
-        print(f"{theme['highlight']['undone']['even']}All tasks are done.{theme['escape']}")
+        if(len(tasks)>0):
+            print(f"{theme['highlight']['undone']['even']}All tasks are done.{theme['escape']}")
+        else:
+            print(f"Use {theme['highlight']['undone']['odd']}today -a{theme['escape']} to add a new task")
 
     # print headers
     for attr, i in zip(['ID', 'Time', 'Name', 'Duration', 'Skip', 'Done'], lengths):
