@@ -171,7 +171,7 @@ def display(tasks, id=None):
     # next task
     next_undone = get_first({'done':False, 'skip': False})
 
-    if(not(next_undone)):
+    if(next_undone == None):
         if(len(tasks)>0):
             print(f"{theme['highlight']['undone']['even']}All tasks are done.{theme['escape']}")
         else:
