@@ -406,7 +406,7 @@ def get_first(d: dict, step=1):
         matches = [check(i, key) for key in d]
         if(all(matches)):
             return(i)
-    return(False)
+    return(None)
  
 def get_next(given_time):
     '''
