@@ -5,11 +5,11 @@ with open("README.md", "r") as fh:
 
 setup(
         name='today_cli',
-        version='1.2.0',
+        version='1.2.1',
         description='Command Line Day Planner',
         long_description = long_description,
         long_description_content_type="text/markdown",
-        url='https://github.com/TajwarHjkl/today/archive/refs/tags/v1.2.0.tar.gz',
+        url='https://github.com/TajwarHjkl/today/archive/refs/tags/v1.2.1.tar.gz',
         author='Takey Tajwar',
         author_email='tajwar.earth@proton.me',
         license='GPLv3',
