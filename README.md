@@ -177,10 +177,16 @@ To learn more, please read [the wiki](https://github.com/TajwarHjkl/today/wiki).
 
 # Install today
 
-## Install With Pip
+## Install with Pip
 
 ```console
 pip install today-cli
+```
+
+## Or, Install with Pipx
+
+```console
+pipx install today-cli
 ```
 
 # Having an Issue?
